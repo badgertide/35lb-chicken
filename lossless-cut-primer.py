@@ -11,6 +11,57 @@ import tempfile
 
 import utils as Utils
 
+"""set the base template for each chunk of episodes
+this can help save time if the theme song changes each season
+or certain segments start/stop being utilized"""
+TEMPLATE = [
+    {
+    "start": 0,
+    "end": 14.973291666666666,
+    "name": 'production'
+    },
+    {
+    "start": 14.973291666666666,
+    "end": 124.99987499999999,
+    "name": 'themeopen'
+    },
+    {
+    "start": 124.99987499999999,
+    "end": 779.9875416666666,
+    "name": 'segment'
+    },
+    {
+    "start": 779.9875416666666,
+    "end": 786.9945416666666,
+    "name": 'eyecatcher'
+    },
+    {
+    "start": 786.9945416666666,
+    "end": 794.5020416666666,
+    "name": 'eyecatcher'
+    },
+    {
+    "start": 794.5020416666666,
+    "end": 1390.0136249999998,
+    "name": 'segment'
+    },
+    {
+    "start": 1390.0136249999998,
+    "end": 1460.0002083333331,
+    "name": 'themeclose'
+    },
+    {
+    "start": 1460.0002083333331,
+    "end": 1489.9885,
+    "name": 'teaser'
+    },
+    {
+    "start": 1489.9885,
+    "end": 1500.0302083333331,
+    "name": 'signoff'
+    }
+]
+
 def find_files_for_projgen(root: Path):
     """
     walks the target directory for pairs of matching video and LosslessCut project files.
@@ -64,6 +115,45 @@ def get_video_length(filename):
         check=True)
     return float(result.stdout)
 
+def generate_proj(filepath, vid_len):
+    """generates a LosslessCut project file, scaling the template to
+    fit the video. This does NOT create a perfect cut, it only places
+    all segments in the correct order at an approximate size"""
+    proj_json = {}
+    proj_json["version"] = 2
+    proj_json["mediaFileName"] = os.path.basename(filepath)
+    cut_segments = []
+    template_len = TEMPLATE[-1]["end"]
+    scale = vid_len / template_len
+    segments_total_len = 0.0
+
+    for s in TEMPLATE:
+        temp_start = s["start"]
+        temp_end = s["end"]
+        segment_len = temp_end - temp_start
+
+        segment_scaled_len = segment_len * scale
+        cut_segments.append({
+            "start": segments_total_len,
+            "end": segments_total_len + segment_scaled_len,
+            "name": s["name"],
+            "selected": True
+        })
+        print(f"{segments_total_len} + {segment_scaled_len} = {segments_total_len + segment_scaled_len}")
+        segments_total_len += segment_scaled_len
+    proj_json["cutSegments"] = cut_segments
+
+    if not math.isclose(segments_total_len, vid_len):
+        print(f"WARN: {os.path.basename(filepath)} does not scale properly ({segments_total_len} != {vid_len}).")
+        print(f"{os.path.basename(filepath)} project not generated.")
+        return
+    
+    file_dir = os.path.dirname(filepath)
+    file_name = os.path.basename(os.path.splitext(filepath)[0])
+    new_filename = f"{file_name}-PROJGEN.llc"
+    with open(os.path.join(file_dir, new_filename), "w", encoding="utf-8") as proj:
+        json.dump(proj_json, proj, ensure_ascii=False, indent=4)
+
 def main():
     """main."""
     # check for dependencies
@@ -82,7 +172,7 @@ def main():
         print(f"Found {len(noprojfiles)} files for projgen.")
     for f in noprojfiles:
         vid_len = get_video_length(f)
-        print(vid_len)
+        generate_proj(f, vid_len)
 
 
     print("\nDone.")
