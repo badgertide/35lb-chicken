@@ -67,7 +67,7 @@ def get_episode_number(file):
     m = re.search(r"\d{4}", filename_base).group()
     return int(m.lstrip("0"))
 
-def get_template_by_episode(ep):
+def get_template_by_episode_num(ep):
     templates = c.TEMPLATES["OnePiece"]
 
     results = []
@@ -82,17 +82,11 @@ def get_template_by_episode(ep):
         print(f"WARN: Episode number [{ep}] does not match any template. Using the first template.")
         return 0
 
-def generate_proj(filepath, vid_len, episode_num):
-    """generates a LosslessCut project file, scaling the template to
-    fit the video. This does NOT create a perfect cut, it only places
-    all segments in the correct order at an approximate size"""
-    proj_json = {}
-    proj_json["version"] = 2
-    proj_json["mediaFileName"] = os.path.basename(filepath)
+def get_cuts_by_episode_num(ep, length):
     cut_segments = []
-    template_index = get_template_by_episode(episode_num)
+    template_index = get_template_by_episode_num(ep)
     template_len = c.TEMPLATES["OnePiece"][template_index]["cut_segments"][-1]["end"]
-    scale = vid_len / template_len
+    scale = length / template_len
     segments_total_len = 0.0
 
     for s in c.TEMPLATES["OnePiece"][template_index]["cut_segments"]:
@@ -109,12 +103,22 @@ def generate_proj(filepath, vid_len, episode_num):
         })
         # print(f"{segments_total_len} + {segment_scaled_len} = {segments_total_len + segment_scaled_len}")
         segments_total_len += segment_scaled_len
-    proj_json["cutSegments"] = cut_segments
 
-    if not math.isclose(segments_total_len, vid_len):
-        print(f"WARN: {os.path.basename(filepath)} does not scale properly ({segments_total_len} != {vid_len}).")
-        print(f"{os.path.basename(filepath)} project not generated.")
-        return
+    if not math.isclose(segments_total_len, length):
+        print(f"WARN: episode {ep} does not scale properly ({segments_total_len} != {length}).")
+        print(f"episode {ep} project not generated.")
+        return []
+    return cut_segments
+
+def generate_proj(filepath, vid_len, episode_num):
+    """generates a LosslessCut project file, scaling the template to
+    fit the video. This does NOT create a perfect cut, it only places
+    all segments in the correct order at an approximate size"""
+    proj_json = {}
+    proj_json["version"] = 2
+    proj_json["mediaFileName"] = os.path.basename(filepath)
+    # the meat of the whole thing. get the cuts for the given episode
+    proj_json["cutSegments"] = get_cuts_by_episode_num(episode_num, vid_len)
     
     file_dir = os.path.dirname(filepath)
     file_name = os.path.basename(os.path.splitext(filepath)[0])
