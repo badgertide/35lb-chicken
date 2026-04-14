@@ -45,13 +45,13 @@ TEMPLATES = {
                 "start": 779.9875416666666,
                 "end": 786.9945416666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 786.9945416666666,
                 "end": 794.5020416666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 794.5020416666666,
@@ -117,13 +117,13 @@ TEMPLATES = {
                 "start": 776.0252499999999,
                 "end": 783.0739583333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 783.0739583333333,
                 "end": 790.5397499999999,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 790.5397499999999,
@@ -189,13 +189,13 @@ TEMPLATES = {
                 "start": 644.018375,
                 "end": 651.1087916666667,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 651.1087916666667,
                 "end": 658.5745833333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 658.5745833333333,
@@ -261,13 +261,13 @@ TEMPLATES = {
                 "start": 713.0039583333332,
                 "end": 720.0526666666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 720.0526666666666,
                 "end": 727.5184583333332,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 727.5184583333332,
@@ -333,13 +333,13 @@ TEMPLATES = {
                 "start": 694.7774166666666,
                 "end": 701.7844166666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 701.7844166666666,
                 "end": 709.2502083333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 709.2502083333333,
@@ -405,13 +405,13 @@ TEMPLATES = {
                 "start": 835.8767083333332,
                 "end": 842.8837083333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 842.8837083333333,
                 "end": 850.3077916666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 850.3077916666666,
@@ -477,13 +477,13 @@ TEMPLATES = {
                 "start": 626.000375,
                 "end": 633.0907916666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 633.0907916666666,
                 "end": 640.5565833333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 640.5565833333333,
@@ -549,13 +549,13 @@ TEMPLATES = {
                 "start": 630.9636666666667,
                 "end": 638.0123749999999,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 638.0123749999999,
                 "end": 645.519875,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 645.519875,
@@ -621,13 +621,13 @@ TEMPLATES = {
                 "start": 745.9952499999999,
                 "end": 753.0856666666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 753.0856666666666,
                 "end": 760.5931666666667,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 760.5931666666667,
@@ -693,13 +693,13 @@ TEMPLATES = {
                 "start": 828.0355416666666,
                 "end": 835.0425416666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 835.0425416666666,
                 "end": 842.5500416666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 842.5500416666666,
@@ -723,12 +723,13 @@ TEMPLATES = {
                 "start": 1400.1070416666666,
                 "end": 1430.1370416666666,
                 "name": 'teaser',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 1430.1370416666666,
                 "end": 1440.262,
-                "name": 'signoff'
+                "name": 'signoff',
+                "stretch": False
                 }
             ]
         },
@@ -764,13 +765,13 @@ TEMPLATES = {
                 "start": 907.9487083333332,
                 "end": 914.9974166666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 914.9974166666666,
                 "end": 922.4632083333332,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 922.4632083333332,
@@ -830,13 +831,13 @@ TEMPLATES = {
                 "start": 828.0355416666666,
                 "end": 835.0425416666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 835.0425416666666,
                 "end": 842.5083333333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 842.5083333333333,
@@ -896,13 +897,13 @@ TEMPLATES = {
                 "start": 902.9854166666667,
                 "end": 909.9924166666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 909.9924166666666,
                 "end": 917.4999166666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 917.4999166666666,
@@ -962,13 +963,13 @@ TEMPLATES = {
                 "start": 927.051125,
                 "end": 933.9747083333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 933.9747083333333,
                 "end": 941.4822083333332,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 941.4822083333332,
@@ -986,12 +987,13 @@ TEMPLATES = {
                 "start": 1394.9769166666665,
                 "end": 1425.0069166666665,
                 "name": 'teaser',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 1425.0069166666665,
                 "end": 1435.108,
-                "name": 'signoff'
+                "name": 'signoff',
+                "stretch": False
                 }
             ]
         },
@@ -1027,13 +1029,13 @@ TEMPLATES = {
                 "start": 885.9684166666666,
                 "end": 892.9754166666665,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 892.9754166666665,
                 "end": 900.4829166666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 900.4829166666666,
@@ -1051,12 +1053,13 @@ TEMPLATES = {
                 "start": 1394.9769166666665,
                 "end": 1424.9652083333333,
                 "name": 'teaser',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 1424.9652083333333,
                 "end": 1435.107,
-                "name": 'signoff'
+                "name": 'signoff',
+                "stretch": False
                 }
             ]
         },
@@ -1092,13 +1095,13 @@ TEMPLATES = {
                 "start": 877.0428333333333,
                 "end": 883.9664166666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 883.9664166666666,
                 "end": 891.4739166666666,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 891.4739166666666,
@@ -1158,13 +1161,13 @@ TEMPLATES = {
                 "start": 861.9861249999999,
                 "end": 869.0348333333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 869.0348333333333,
                 "end": 876.5423333333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 876.5423333333333,
@@ -1185,7 +1188,7 @@ TEMPLATES = {
                 "stretch": False
                 },
                 {
-                "start": 1429.9702083333332,
+                "start": 1430.053625,
                 "end": 1440.192,
                 "name": 'signoff',
                 "stretch": False
@@ -1218,13 +1221,13 @@ TEMPLATES = {
                 "start": 819.9858333333334,
                 "end": 826.9261,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 826.9261,
                 "end": 834.4336000000001,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 834.4336000000001,
@@ -1278,13 +1281,13 @@ TEMPLATES = {
                 "start": 826.9928333333334,
                 "end": 833.9998333333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 833.9998333333333,
                 "end": 841.5073333333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 841.5073333333333,
@@ -1344,13 +1347,13 @@ TEMPLATES = {
                 "start": 864.0298333333333,
                 "end": 871.0368333333332,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 871.0368333333332,
                 "end": 878.5443333333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 878.5443333333333,
@@ -1404,13 +1407,13 @@ TEMPLATES = {
                 "start": 814.9808333333333,
                 "end": 821.9878333333332,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 821.9878333333332,
                 "end": 829.4953333333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 829.4953333333333,
@@ -1440,7 +1443,7 @@ TEMPLATES = {
         },
         {
             "name": "Wano Country",
-            "startend": [892,991],
+            "startend": [892,1071],
             "cut_segments": [
                 {
                 "start": 0,
@@ -1470,13 +1473,13 @@ TEMPLATES = {
                 "start": 906.5723333333333,
                 "end": 913.5793333333332,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 913.5793333333332,
                 "end": 921.0868333333333,
                 "name": 'eyecatcher',
-                "stretch": True
+                "stretch": False
                 },
                 {
                 "start": 921.0868333333333,
