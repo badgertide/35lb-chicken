@@ -63,6 +63,7 @@ def get_video_length(filename):
     return float(result.stdout)
 
 def get_episode_number(file):
+    """dumb way of getting episode numbers"""
     filename_base = os.path.splitext(os.path.basename(file))[0]
     m = re.search(r"\d{4}", filename_base).group()
     return int(m.lstrip("0"))
@@ -82,27 +83,42 @@ def get_template_by_episode_num(ep):
         print(f"WARN: Episode number [{ep}] does not match any template. Using the first template.")
         return 0
 
+def get_template_stretch_factor(segments, base_len):
+    """gets the multiple that each stretchy segment needs to be altered by"""
+    stretchy_templen = 0.0
+    static_templen = 0.0
+    for s in segments:
+        duration = s["end"] - s["start"]
+        if s["stretch"]:
+            stretchy_templen += duration
+        else:
+            static_templen += duration
+    target = base_len - static_templen
+    return target / stretchy_templen
+
 def get_cuts_by_episode_num(ep, length):
     cut_segments = []
-    template_index = get_template_by_episode_num(ep)
-    template_len = c.TEMPLATES["OnePiece"][template_index]["cut_segments"][-1]["end"]
-    scale = length / template_len
-    segments_total_len = 0.0
+    template_i = get_template_by_episode_num(ep)
+    template_segments = c.TEMPLATES["OnePiece"][template_i]["cut_segments"]
+    stretch_factor = get_template_stretch_factor(template_segments, length)
 
-    for s in c.TEMPLATES["OnePiece"][template_index]["cut_segments"]:
+    segments_total_len = 0.0
+    for s in template_segments:
         temp_start = s["start"]
         temp_end = s["end"]
         segment_len = temp_end - temp_start
 
-        segment_scaled_len = segment_len * scale
+        if s["stretch"]:
+            segment_len *= stretch_factor
         cut_segments.append({
             "start": segments_total_len,
-            "end": segments_total_len + segment_scaled_len,
+            "end": segments_total_len + segment_len,
             "name": s["name"],
             "selected": True
         })
+
         # print(f"{segments_total_len} + {segment_scaled_len} = {segments_total_len + segment_scaled_len}")
-        segments_total_len += segment_scaled_len
+        segments_total_len += segment_len
 
     if not math.isclose(segments_total_len, length):
         print(f"WARN: episode {ep} does not scale properly ({segments_total_len} != {length}).")
@@ -110,16 +126,17 @@ def get_cuts_by_episode_num(ep, length):
         return []
     return cut_segments
 
-def generate_proj(filepath, vid_len, episode_num):
+def generate_proj(filepath, episode_num):
     """generates a LosslessCut project file, scaling the template to
     fit the video. This does NOT create a perfect cut, it only places
     all segments in the correct order at an approximate size"""
+    vid_len = get_video_length(filepath)
     proj_json = {}
     proj_json["version"] = 2
     proj_json["mediaFileName"] = os.path.basename(filepath)
     # the meat of the whole thing. get the cuts for the given episode
     proj_json["cutSegments"] = get_cuts_by_episode_num(episode_num, vid_len)
-    
+
     file_dir = os.path.dirname(filepath)
     file_name = os.path.basename(os.path.splitext(filepath)[0])
     new_filename = f"{file_name}-PROJGEN.llc"
@@ -143,9 +160,8 @@ def main():
     else:
         print(f"Found {len(noprojfiles)} files for projgen.")
     for f in noprojfiles:
-        vid_len = get_video_length(f)
         ep = get_episode_number(f)
-        generate_proj(f, vid_len, ep)
+        generate_proj(f, ep)
 
 
     print("\nDone.")
