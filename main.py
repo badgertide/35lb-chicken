@@ -191,7 +191,7 @@ def process_file(index, input_file, csv_file, temp_dir):
         make_reencode_segment(input_file, seg_file, start, end, maps)
         segment_files.append(seg_file)
 
-    concat_file = os.path.join(temp_dir, f"ep{index}_concat.txt")
+    concat_file = temp_dir / f"ep{index}_concat.txt"
     concat_segments(concat_file, segment_files, output_file)
 
     print("Deleting temp segment files...")
