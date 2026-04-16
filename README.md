@@ -1,5 +1,17 @@
 # 35lb-chicken
-A tool to facilitate trimming the filler from cartoons, specifically One Piece. The aim is to allow the user to select which types of filler they are okay with and re-cut the existing video in the prescribed manner.
+
+## What is this?
+35-Pound Chicken is a tool that I built to trim the filler from  One Piece. The aim is to allow the user to select which types of filler they are okay with and re-cut the existing video in a controlled manner.
+
+## Why not just watch One Pace?
+One Pace is great and I deeply respect all of the quality work that team has managed to do. However, while I feel that attempting to speed up the pacing of One Piece is a noble goal, that is not what One Pace does (at time of writing in 2026). It fixes pacing, but it also rewrites the anime to be more of a video version of the manga.
+
+I believe that the anime and the manga are two different things and there are things to love about both. Therefore, I aim to re-cut the anime as it is, trimming out as much dead weight as possible while retaining the anime as it was released. No reconstructions, no upscaling, no remakes of scenes spliced in from movies.
+
+## Is this piracy?
+No, everything in this project is my own making, minus the titles on the templates. You supply the video and I will cut the videos down to size.
+
+---
 
 ### Segment Types
 * **production** 
