@@ -64,20 +64,14 @@
     },
     {
       start: 1207.9984583333332,
-      end: 1220.4275416666667,
+      end: 1387.0940416666665,
       name: 'segment',
       selected: true,
     },
     {
       start: 1220.4275416666667,
-      end: 1273.397125,
-      name: 'filler',
-      selected: true,
-    },
-    {
-      start: 1273.397125,
-      end: 1387.0940416666665,
-      name: 'segment',
+      end: 1276.5669583333333,
+      name: "filler|Genzo's flashback to the story we just watched",
       selected: true,
     },
     {
