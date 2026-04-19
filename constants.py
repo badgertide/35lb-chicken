@@ -27,6 +27,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 124.99987499999999,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 779.9875416666666,
                 "name": 'segment',
                 "stretch": True
@@ -99,6 +111,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 124.95816666666666,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 776.0252499999999,
                 "name": 'segment',
                 "stretch": True
@@ -171,6 +195,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 124.99987499999999,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 644.018375,
                 "name": 'segment',
                 "stretch": True
@@ -243,6 +279,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 124.99987499999999,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 713.0039583333332,
                 "name": 'segment',
                 "stretch": True
@@ -315,6 +363,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 124.91645833333332,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 694.7774166666666,
                 "name": 'segment',
                 "stretch": True
@@ -387,6 +447,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 124.91645833333332,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 835.8767083333332,
                 "name": 'segment',
                 "stretch": True
@@ -459,6 +531,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 124.99987499999999,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 626.000375,
                 "name": 'segment',
                 "stretch": True
@@ -531,6 +615,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 124.99987499999999,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 630.9636666666667,
                 "name": 'segment',
                 "stretch": True
@@ -603,6 +699,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 314.02204166666667,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 745.9952499999999,
                 "name": 'segment',
                 "stretch": True
@@ -675,6 +783,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 409.36729166666663,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 828.0355416666666,
                 "name": 'segment',
                 "stretch": True
@@ -747,6 +867,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 124.99987499999999,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 907.9487083333332,
                 "name": 'segment',
                 "stretch": True
@@ -813,6 +945,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 164.99816666666666,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 828.0355416666666,
                 "name": 'segment',
                 "stretch": True
@@ -879,6 +1023,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 164.99816666666666,
+                "end": 158.65849999999998,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 158.65849999999998,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 902.9854166666667,
                 "name": 'segment',
                 "stretch": True
@@ -945,6 +1101,18 @@ TEMPLATES = {
                 },
                 {
                 "start": 164.99816666666666,
+                "end": 165.99816666666666,
+                "name": 'segment',
+                "stretch": True
+                },
+                {
+                "start": 165.99816666666666,
+                "end": 167.70920833333332,
+                "name": 'titlecard',
+                "stretch": True
+                },
+                {
+                "start": 167.70920833333332,
                 "end": 927.051125,
                 "name": 'segment',
                 "stretch": True
