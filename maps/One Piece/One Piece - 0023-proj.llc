@@ -1,0 +1,90 @@
+{
+  version: 2,
+  mediaFileName: 'One Piece - 0023.mkv',
+  cutSegments: [
+    {
+      start: 0,
+      end: 14.973291666666666,
+      name: 'production',
+      selected: true,
+    },
+    {
+      start: 14.973291666666666,
+      end: 124.99987499999999,
+      name: 'themeopen',
+      selected: true,
+    },
+    {
+      start: 124.99987499999999,
+      end: 198.19799999999998,
+      name: 'recap',
+      selected: true,
+    },
+    {
+      start: 198.19799999999998,
+      end: 209.75120833333332,
+      name: 'easein',
+      selected: true,
+    },
+    {
+      start: 209.75120833333332,
+      end: 219.219,
+      name: '',
+      selected: true,
+    },
+    {
+      start: 219.219,
+      end: 895.9784166666666,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 895.9784166666666,
+      end: 902.9854166666667,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 902.9854166666667,
+      end: 910.4929166666666,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 910.4929166666666,
+      end: 1340.837633,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 1340.837633,
+      end: 1386.9272083333333,
+      name: 'easeout',
+      selected: true,
+    },
+    {
+      start: 1386.9272083333333,
+      end: 1390.0136249999998,
+      name: 'tbc',
+      selected: true,
+    },
+    {
+      start: 1390.0136249999998,
+      end: 1460.0002083333331,
+      name: 'themeclose',
+      selected: true,
+    },
+    {
+      start: 1460.0002083333331,
+      end: 1490.0302083333331,
+      name: 'teaser',
+      selected: true,
+    },
+    {
+      start: 1490.0302083333331,
+      end: 1500.169,
+      name: 'signoff',
+      selected: true,
+    },
+  ],
+}

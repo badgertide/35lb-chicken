@@ -1,0 +1,78 @@
+{
+  version: 2,
+  mediaFileName: 'One Piece - 0005.mkv',
+  cutSegments: [
+    {
+      start: 0,
+      end: 14.973291666666666,
+      name: 'production',
+      selected: true,
+    },
+    {
+      start: 14.973291666666666,
+      end: 125.04158333333332,
+      name: 'themeopen',
+      selected: true,
+    },
+    {
+      start: 125.04158333333332,
+      end: 155.280125,
+      name: 'easein',
+      selected: true,
+    },
+    {
+      start: 155.280125,
+      end: 164.33083333333332,
+      name: 'titlecard',
+      selected: true,
+    },
+    {
+      start: 164.28912499999998,
+      end: 831.9978333333332,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 831.9978333333332,
+      end: 839.0465416666666,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 839.0465416666666,
+      end: 846.5123333333332,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 846.5123333333332,
+      end: 1386.9272083333333,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 1386.9272083333333,
+      end: 1389.613775,
+      name: 'tbc',
+      selected: true,
+    },
+    {
+      start: 1389.613775,
+      end: 1460.0002083333331,
+      name: 'themeclose',
+      selected: true,
+    },
+    {
+      start: 1460.0002083333331,
+      end: 1489.9885,
+      name: 'teaser',
+      selected: true,
+    },
+    {
+      start: 1489.9885,
+      end: 1500.123,
+      name: 'signoff',
+      selected: true,
+    },
+  ],
+}

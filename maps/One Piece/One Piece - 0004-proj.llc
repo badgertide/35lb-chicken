@@ -1,0 +1,78 @@
+{
+  version: 2,
+  mediaFileName: 'One Piece - 0004.mkv',
+  cutSegments: [
+    {
+      start: 0,
+      end: 14.973291666666666,
+      name: 'production',
+      selected: true,
+    },
+    {
+      start: 14.973291666666666,
+      end: 124.99987499999999,
+      name: 'themeopen',
+      selected: true,
+    },
+    {
+      start: 124.99987499999999,
+      end: 248.41483333333332,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 248.41483333333332,
+      end: 257.34041666666667,
+      name: 'titlecard',
+      selected: true,
+    },
+    {
+      start: 257.34041666666667,
+      end: 780.0602380956352,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 780.0602380956352,
+      end: 787.0672380956352,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 787.0672380956352,
+      end: 794.5747380956352,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 794.5747380956352,
+      end: 1380.5875416666665,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 1380.5875416666665,
+      end: 1390.1524166666668,
+      name: 'tbc',
+      selected: true,
+    },
+    {
+      start: 1390.1524166666668,
+      end: 1460.1390000000001,
+      name: 'themeclose',
+      selected: true,
+    },
+    {
+      start: 1460.1390000000001,
+      end: 1490.127291666667,
+      name: 'teaser',
+      selected: true,
+    },
+    {
+      start: 1490.127291666667,
+      end: 1500.169,
+      name: 'signoff',
+      selected: true,
+    },
+  ],
+}

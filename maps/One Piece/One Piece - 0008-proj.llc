@@ -1,0 +1,78 @@
+{
+  version: 2,
+  mediaFileName: 'One Piece - 0008.mkv',
+  cutSegments: [
+    {
+      start: 0,
+      end: 15.014999999999999,
+      name: 'production',
+      selected: true,
+    },
+    {
+      start: 15.014999999999999,
+      end: 125.04158333333332,
+      name: 'themeopen',
+      selected: true,
+    },
+    {
+      start: 124.99987499999999,
+      end: 147.35554166666665,
+      name: 'recap',
+      selected: true,
+    },
+    {
+      start: 147.35554166666665,
+      end: 156.23941666666664,
+      name: 'titlecard',
+      selected: true,
+    },
+    {
+      start: 156.23941666666664,
+      end: 600.0577916666666,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 600.0577916666666,
+      end: 607.0647916666667,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 607.0647916666667,
+      end: 614.5722916666666,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 614.5722916666666,
+      end: 1380.4207083333333,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 1380.4207083333333,
+      end: 1390.0553333333332,
+      name: 'tbc',
+      selected: true,
+    },
+    {
+      start: 1390.0553333333332,
+      end: 1460.0419166666666,
+      name: 'themeclose',
+      selected: true,
+    },
+    {
+      start: 1460.0419166666666,
+      end: 1490.0719166666665,
+      name: 'teaser',
+      selected: true,
+    },
+    {
+      start: 1490.0719166666665,
+      end: 1500.124,
+      name: 'signoff',
+      selected: true,
+    },
+  ],
+}

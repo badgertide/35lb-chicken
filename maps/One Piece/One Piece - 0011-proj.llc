@@ -1,0 +1,78 @@
+{
+  version: 2,
+  mediaFileName: 'One Piece - 0011.mkv',
+  cutSegments: [
+    {
+      start: 0,
+      end: 14.973291666666666,
+      name: 'production',
+      selected: true,
+    },
+    {
+      start: 14.973291666666666,
+      end: 124.99987499999999,
+      name: 'themeopen',
+      selected: true,
+    },
+    {
+      start: 124.99987499999999,
+      end: 231.68979166666665,
+      name: 'recap',
+      selected: true,
+    },
+    {
+      start: 231.68979166666665,
+      end: 240.61537499999997,
+      name: 'titlecard',
+      selected: true,
+    },
+    {
+      start: 240.61537499999997,
+      end: 694.9859583333333,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 694.9859583333333,
+      end: 702.076375,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 702.076375,
+      end: 709.5838749999999,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 709.5838749999999,
+      end: 1381.8387916666666,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 1381.8387916666666,
+      end: 1390.0136249999998,
+      name: 'tbc',
+      selected: true,
+    },
+    {
+      start: 1390.0136249999998,
+      end: 1460.0002083333331,
+      name: 'themeclose',
+      selected: true,
+    },
+    {
+      start: 1460.0002083333331,
+      end: 1489.9885,
+      name: 'teaser',
+      selected: true,
+    },
+    {
+      start: 1489.9885,
+      end: 1500.123,
+      name: 'signoff',
+      selected: true,
+    },
+  ],
+}
