@@ -22,7 +22,7 @@ TEMPLATES = {
                 {
                 "start": 124.99987499999999,
                 "end": 124.99987499999999,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -106,7 +106,7 @@ TEMPLATES = {
                 {
                 "start": 124.95816666666666,
                 "end": 124.95816666666666,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -190,7 +190,7 @@ TEMPLATES = {
                 {
                 "start": 124.99987499999999,
                 "end": 124.99987499999999,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -274,7 +274,7 @@ TEMPLATES = {
                 {
                 "start": 124.99987499999999,
                 "end": 124.99987499999999,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -358,7 +358,7 @@ TEMPLATES = {
                 {
                 "start": 124.91645833333332,
                 "end": 124.91645833333332,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -442,7 +442,7 @@ TEMPLATES = {
                 {
                 "start": 124.91645833333332,
                 "end": 124.91645833333332,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -526,7 +526,7 @@ TEMPLATES = {
                 {
                 "start": 124.99987499999999,
                 "end": 124.99987499999999,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -610,7 +610,7 @@ TEMPLATES = {
                 {
                 "start": 124.99987499999999,
                 "end": 124.99987499999999,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -688,7 +688,7 @@ TEMPLATES = {
                 {
                 "start": 14.973291666666666,
                 "end": 203.99545833333332,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": False
                 },
                 {
@@ -778,7 +778,7 @@ TEMPLATES = {
                 {
                 "start": 124.99987499999999,
                 "end": 409.36729166666663,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -862,7 +862,7 @@ TEMPLATES = {
                 {
                 "start": 124.99987499999999,
                 "end": 124.99987499999999,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -940,7 +940,7 @@ TEMPLATES = {
                 {
                 "start": 164.99816666666666,
                 "end": 164.99816666666666,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1018,7 +1018,7 @@ TEMPLATES = {
                 {
                 "start": 164.99816666666666,
                 "end": 164.99816666666666,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1096,7 +1096,7 @@ TEMPLATES = {
                 {
                 "start": 164.99816666666666,
                 "end": 164.99816666666666,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1174,7 +1174,7 @@ TEMPLATES = {
                 {
                 "start": 164.99816666666666,
                 "end": 164.99816666666666,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1240,7 +1240,7 @@ TEMPLATES = {
                 {
                 "start": 164.99816666666666,
                 "end": 164.99816666666666,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1306,7 +1306,7 @@ TEMPLATES = {
                 {
                 "start": 164.95645833333333,
                 "end": 301.00904166666663,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1366,7 +1366,7 @@ TEMPLATES = {
                 {
                 "start": 150.01653333333334,
                 "end": 313.98033333333336,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1426,7 +1426,7 @@ TEMPLATES = {
                 {
                 "start": 150.01653333333334,
                 "end": 239.5393,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1492,7 +1492,7 @@ TEMPLATES = {
                 {
                 "start": 164.99816666666666,
                 "end": 419.66925,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1552,7 +1552,7 @@ TEMPLATES = {
                 {
                 "start": 149.98316666666665,
                 "end": 276.6869791666667,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
@@ -1618,7 +1618,7 @@ TEMPLATES = {
                 {
                 "start": 130.58879166666665,
                 "end": 196.61308333333332,
-                "name": 'easein',
+                "name": 'recap',
                 "stretch": True
                 },
                 {
