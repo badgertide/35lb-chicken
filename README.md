@@ -1,56 +1,16 @@
 # 35lb-chicken
 
 ## What is this?
-35-Pound Chicken is a tool that I built to trim the filler from  One Piece. The aim is to allow the user to select which types of filler they are okay with and re-cut the existing video in a controlled manner.
+35-Pound Chicken is a tool that I built to trim the filler from your One Piece videos. The aim is to allow the user to select which types of video they would like to keep and re-cut the existing video in a controlled manner. So if they would like to keep the theme songs, but not the recaps, that should be allowed.
+
+## The Goal
+35PC attempts to re-pace One Piece, cutting out filler, plus most recaps and theme songs. The goal is not to FIX the pacing, but to alleviate it by skipping the most egregious filler. Additionally, while skipping filler *scenes* is a priority, skipping filler *episodes* is not. There are a good number of enjoyable filler episodes that add elements to the story. If you wish to skip those, you may do so at your own better judgement.
+
+## Will this tool give me a professional, seamless recut?
+No. That's the ideal that I strive for, but it is not possible in all cases. 35PC attempts to cut fat out of the video and paste it back together with no further editing, essentially fast-forwarding through the show as directed. This means that sometimes the best skip will happen in the middle of a musical piece or a scene. I try to avoid this as much as possible, but occasionally it is unavoidable.
 
 ## Why not just watch One Pace?
-One Pace is great and I deeply respect all of the quality work that team has managed to do. However, while I feel that attempting to speed up the pacing of One Piece is a noble goal, that is not what One Pace does (at time of writing in 2026). It fixes pacing, but it also rewrites the anime to be more of a video version of the manga.
-
-I believe that the anime and the manga are two different things and there are things to love about both. Therefore, I aim to re-cut the anime as it is, trimming out as much dead weight as possible while retaining the anime as it was released. No reconstructions, no upscaling, no remakes of scenes spliced in from movies.
+Yeah, you can do that. One Pace is great and I deeply respect all of the quality work that team has managed to do. However, while I feel that attempting to speed up the pacing is a noble goal, One Pace is more of a video version of the manga.
 
 ## Is this piracy?
 No, everything in this project is my own making, minus the titles on the templates. You supply the video and I will cut the videos down to size.
-
----
-
-### Segment Types
-* **production** 
-    * Used to denote opening logos, animation sequences.
-    * Optionally played at the beginning of an episode run.
-    * Not stretched.
-* **themeopen**
-    * Used to denote theme songs and jingles.
-    * Played at the beginning of an episode run.
-    * Not stretched.
-* **easein**
-    * Used to mark the section of recap footage before an episode starts.
-    * Generally has a corresponding easeout in the previous episode.
-* **segment**
-    * The generic segment type. Used to denote time frames that should be kept under all circumstances.
-* **eyecatcher**
-    * Used to denote ease in/outs around commercial breaks.
-    * Optionally keep the first or last eyecatcher.
-* **easeout**
-    * Used to mark the section of footage leading up to a cliffhanger or end of episode.
-    * Generally has a corresponding easein in the next episode.
-* **themeclose**
-    * Used to denote theme songs and jingles.
-    * Played at the end of an episode run.
-    * Not stretched.
-* **teaser**
-    * Used to denote "next time on" segments.
-    * Optionally played at the end of an episode run.
-* **signoff**
-    * Used to denote any trailing production logos or splash screens.
-    * Optionally played at the beginning of an episode run.
-    * Not stretched.
-* **filler**
-    * Does nothing, but can be useful as a marking tool.
-    * Never included in the render under any circumstances.
-
-### Rules (Provisional)
-* Cut seasons into n-episode runs, spreading the distribution as needed (a 28-episode season split into 5-ep chunks could be split up like 5-5-5-5-4-4)
-* Play `production` and `themeopen` on the first episode in a run
-* Play only the first `eyecatcher` in any episode
-* Play `themeclose` and `signoff` on the last episode in a run
-* If an episode has an `easeout`, check the next episode for an `easein`. If one exists, skip this segment
