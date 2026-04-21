@@ -20,52 +20,58 @@ TEMPLATES = {
                 "stretch": False
                 },
                 {
-                "start": 124.99987499999999,
-                "end": 124.99987499999999,
+                "start": 134.59239527777777,
+                "end": 134.59239527777777,
                 "name": 'recap',
                 "stretch": True
                 },
                 {
                 "start": 124.99987499999999,
-                "end": 158.65849999999998,
+                "end": 171.25441666666666,
                 "name": 'segment',
                 "stretch": True
                 },
                 {
-                "start": 158.65849999999998,
-                "end": 167.70920833333332,
+                "start": 176.2618675,
+                "end": 176.2618675,
                 "name": 'titlecard',
-                "stretch": True
+                "stretch": False
                 },
                 {
-                "start": 167.70920833333332,
-                "end": 779.9875416666666,
+                "start": 180.26341666666664,
+                "end": 722.0129583333332,
                 "name": 'segment',
                 "stretch": True
                 },
                 {
-                "start": 779.9875416666666,
-                "end": 786.9945416666666,
+                "start": 722.0129583333332,
+                "end": 729.0616666666666,
                 "name": 'eyecatcher',
                 "stretch": False
                 },
                 {
-                "start": 786.9945416666666,
-                "end": 794.5020416666666,
+                "start": 729.0616666666666,
+                "end": 736.5274583333332,
                 "name": 'eyecatcher',
                 "stretch": False
                 },
                 {
-                "start": 794.5020416666666,
-                "end": 1390.0136249999998,
+                "start": 736.5274583333332,
+                "end": 1387.010625,
                 "name": 'segment',
                 "stretch": True
                 },
                 {
-                "start": 1390.0136249999998,
-                "end": 1390.0136249999998,
+                "start": 1387.010625,
+                "end": 1387.010625,
                 "name": 'easeout',
-                "stretch": True
+                "stretch": False
+                },
+                {
+                "start": 1387.010625,
+                "end": 1390.0136249999998,
+                "name": 'tbc',
+                "stretch": False,
                 },
                 {
                 "start": 1390.0136249999998,
