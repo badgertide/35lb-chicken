@@ -1,0 +1,78 @@
+{
+  version: 2,
+  mediaFileName: 'One Piece - 0048.mkv',
+  cutSegments: [
+    {
+      start: 0,
+      end: 14.973291666666666,
+      name: 'production',
+      selected: true,
+    },
+    {
+      start: 14.973291666666666,
+      end: 124.99987499999999,
+      name: 'themeopen',
+      selected: true,
+    },
+    {
+      start: 124.99987499999999,
+      end: 179.63779166666666,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 179.63779166666666,
+      end: 188.64679166666664,
+      name: 'titlecard',
+      selected: true,
+    },
+    {
+      start: 188.64679166666664,
+      end: 706.9979583333333,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 706.9979583333333,
+      end: 714.0883749999999,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 714.0883749999999,
+      end: 721.6375833333333,
+      name: 'eyecatcher',
+      selected: true,
+    },
+    {
+      start: 721.6375833333333,
+      end: 1387.13575,
+      name: 'segment',
+      selected: true,
+    },
+    {
+      start: 1387.13575,
+      end: 1390.0970416666667,
+      name: 'tbc',
+      selected: true,
+    },
+    {
+      start: 1390.0970416666667,
+      end: 1460.083625,
+      name: 'themeclose',
+      selected: true,
+    },
+    {
+      start: 1460.083625,
+      end: 1490.0302083333331,
+      name: 'teaser',
+      selected: true,
+    },
+    {
+      start: 1490.0302083333331,
+      end: 1500.169,
+      name: 'signoff',
+      selected: true,
+    },
+  ],
+}
