@@ -52,8 +52,14 @@
     },
     {
       start: 792.5000416666666,
-      end: 1381.694493,
+      end: 1331.6636666666666,
       name: 'segment',
+      selected: true,
+    },
+    {
+      start: 1331.6636666666666,
+      end: 1381.694493,
+      name: 'easeout',
       selected: true,
     },
     {

@@ -53,7 +53,7 @@
     {
       start: 1382.2558749999998,
       end: 1387.0940416666665,
-      name: 'easeout',
+      name: 'easeout|I really like this transition. It should be seamless',
       selected: true,
     },
     {
