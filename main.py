@@ -39,7 +39,7 @@ def get_target_dir():
 # -----------------------------
 # File discovery
 # -----------------------------
-def find_matching_pairs(root: Path):
+def get_projects_for_cutting(root: Path):
     """
     walks the target directory for pairs of matching video and losslesscut files.
     (0001.mkv, 0001-proj.llc) qualifies as a pair
@@ -226,7 +226,7 @@ def main():
     target_dir = get_target_dir()
 
     print(f"Recursively searching: {target_dir}")
-    pairs = find_matching_pairs(target_dir)
+    pairs = get_projects_for_cutting(target_dir)
     if not pairs:
         print("No matching .mkv + .csv pairs found.")
         return
