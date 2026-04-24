@@ -43,7 +43,7 @@ def get_projects_for_cutting(root: Path):
     """
     walks the target directory for pairs of matching video and losslesscut files.
     (0001.mkv, 0001-proj.llc) qualifies as a pair
-    TODO handle this more dynamically in the future
+    TODO handle this more dynamically in the future, allow for remote projects
     """
     pairs = []
     for dirpath, _, filenames in os.walk(root):
@@ -68,7 +68,7 @@ def get_projects_for_cutting(root: Path):
                 if os.path.isfile(target_mediafile_rendered):
                     Utils.print_to_log(f"Rendered video '{c.CUT_FILE_PREFIX + fdata["mediaFileName"]}' already exists. Skipping")
                     continue
-                pairs.append((target_mediafile, dirpath / p))
+                pairs.append((Path(target_mediafile), Path(dirpath / p)))
     return pairs
 
 # -----------------------------
