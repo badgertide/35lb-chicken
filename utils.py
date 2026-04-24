@@ -21,3 +21,6 @@ def check_dependency(name):
         print(f"Error: '{name}' is not installed or not in PATH.")
         return False
     return True
+
+def print_to_log(log):
+    print(log)

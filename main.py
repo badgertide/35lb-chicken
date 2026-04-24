@@ -1,11 +1,11 @@
-import csv
-import json
+import json5 # use instead of 'json' because LosslessCut does not use standard JSON
 import os
 from pathlib import Path
 import sys
 import tempfile
 
 import utils as Utils
+import constants as c
 
 # -----------------------------
 # Settings & Dependencies
@@ -41,23 +41,35 @@ def get_target_dir():
 # -----------------------------
 def find_matching_pairs(root: Path):
     """
-    walks the target directory for pairs of matching video and cut files.
-    (0001.mkv, 0001-cut.mkv) qualifies as a pair
+    walks the target directory for pairs of matching video and losslesscut files.
+    (0001.mkv, 0001-proj.llc) qualifies as a pair
     TODO handle this more dynamically in the future
     """
     pairs = []
     for dirpath, _, filenames in os.walk(root):
         dirpath = Path(dirpath)
-        filenames_set = set(filenames)
-        for filename in filenames:
-            if not filename.lower().endswith(".mkv"):
+        projs = []
+        for f in filenames:
+            if not f.endswith(c.LOSSLESSCUT_SUFFIX):
                 continue
-            if filename.lower().endswith("-cut.mkv"):
-                continue
-            csv_name = filename + ".csv"
-            if csv_name in filenames_set:
-                pairs.append((dirpath / filename, dirpath / csv_name))
-    return sorted(pairs)
+            projs.append(f)
+
+        for p in projs:
+            with open(dirpath / p, newline="", encoding="utf-8") as f:
+                fdata = json5.parse(f.read())[0]
+                if fdata["version"] != 2:
+                    Utils.print_to_log(f"Skipping project file '{p}', version={fdata["version"]}, but only version 2 is supported")
+                    continue
+                target_mediafile = os.path.join(dirpath, fdata["mediaFileName"])
+                if not os.path.isfile(target_mediafile):
+                    Utils.print_to_log(f"WARN: Project file '{p}' claims file {fdata["mediaFileName"]}, which was not found")
+                    continue
+                target_mediafile_rendered = os.path.join(dirpath, c.CUT_FILE_PREFIX + fdata["mediaFileName"])
+                if os.path.isfile(target_mediafile_rendered):
+                    Utils.print_to_log(f"Rendered video '{c.CUT_FILE_PREFIX + fdata["mediaFileName"]}' already exists. Skipping")
+                    continue
+                pairs.append((target_mediafile, dirpath / p))
+    return pairs
 
 # -----------------------------
 # CSV parsing

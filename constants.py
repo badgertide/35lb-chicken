@@ -1673,3 +1673,6 @@ TEMPLATES = {
         }
     ]    
 }
+
+CUT_FILE_PREFIX = "35pc-"
+LOSSLESSCUT_SUFFIX = "-proj.llc"
