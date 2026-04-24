@@ -72,33 +72,34 @@ def get_projects_for_cutting(root: Path):
     return pairs
 
 # -----------------------------
-# CSV parsing
+# LLC parsing
 # -----------------------------
-def load_segments(csv_file):
+def load_segments_from_map(cut_filepath):
     """
-    reads the -cut.csv file and extracts user-defined chunks
+    reads the -proj.llc file and extracts user-defined chunks
     TODO treat chunks differently by category
     """
     cuts = []
-    with open(csv_file, newline="", encoding="utf-8-sig") as f:
-        reader = csv.DictReader(f)
-        for i, row in enumerate(reader, start=1):
-            start = (row.get("Start") or "").strip()
-            end = (row.get("End") or "").strip()
-            label = row.get("Name", "").strip()
-            #TODO do this better
+    with open(cut_filepath, newline="", encoding="utf-8") as f:
+        data = json5.parse(f.read())[0]
+        for i, row in enumerate(data["cutSegments"]):
+            start = (row.get("start") or "").strip()
+            end = (row.get("end") or "").strip()
+            label = row.get("name", "").strip()
+
             if not start or not end or not label:
-                print(f"Skipping row {i} in {csv_file.name}: missing Start/End/Name")
+                Utils.print_to_log(f"[{cut_filepath.name}] Skipping segment {i+1}: missing Start/End/Name")
                 continue
 
             start_s = Utils.time_to_seconds(start)
             end_s = Utils.time_to_seconds(end)
             duration = end_s - start_s
             if duration <= 0:
-                raise ValueError(f"Segment {i} has non-positive duration: {start} -> {end}")
+                error = f"[{cut_filepath.name}] Segment {i} has non-positive duration: {start} -> {end}"
+                Utils.print_to_log(error)
+                raise ValueError(error)
 
             out_name = f"segment_{i:02d}"
-
             cuts.append({
                 "start": start,
                 "end": end,
@@ -109,7 +110,9 @@ def load_segments(csv_file):
                 "label": label,
             })
     if not cuts:
-        raise RuntimeError(f"No valid cuts found in CSV: {csv_file}")
+        error = f"No valid cuts found in project: {cut_filepath}"
+        Utils.print_to_log(error)
+        raise RuntimeError(error)
     return cuts
 
 # -----------------------------
@@ -173,16 +176,14 @@ def make_reencode_segment(input_file, output_file, start, end, maps):
 # -----------------------------
 # Main per-file processing
 # -----------------------------
-def process_file(index, input_file, csv_file, temp_dir):
+def process_file(index, video_file, proj_file, temp_dir):
     """handles the processing of one file from beginning to end."""
-    output_file = input_file.with_name(f"{input_file.stem}-cut{input_file.suffix}")
-    if output_file.exists():
-        print(f"=== Skipping (already exists): {output_file} ===")
-        return
+    output_file = video_file.with_stem(f"{c.CUT_FILE_PREFIX}{video_file.stem}")
 
-    print(f"\n=== Processing: {input_file.name} ===")
-    cuts = load_segments(csv_file)
-    streams = ffprobe_streams(input_file)
+    print(f"\n=== Processing: {video_file.name} ===")
+    cuts = load_segments_from_map(proj_file)
+
+    streams = ffprobe_streams(video_file)
     maps = build_maps(streams)
     segment_files = []
 
@@ -200,7 +201,7 @@ def process_file(index, input_file, csv_file, temp_dir):
 
         seg_file = temp_dir / f"ep{index}_seg_{i:03d}_chunk.mkv"
         print(f"\n=== Encoding segment: '{temp_dir}/ep{index}_seg_{i:03d}_chunk.mkv' ===")
-        make_reencode_segment(input_file, seg_file, start, end, maps)
+        make_reencode_segment(video_file, seg_file, start, end, maps)
         segment_files.append(seg_file)
 
     concat_file = temp_dir / f"ep{index}_concat.txt"
@@ -228,18 +229,18 @@ def main():
     print(f"Recursively searching: {target_dir}")
     pairs = get_projects_for_cutting(target_dir)
     if not pairs:
-        print("No matching .mkv + .csv pairs found.")
+        print("No matching video/project pairs found.")
         return
     else:
         print(f"Found {len(pairs)} pairs.")
 
-    with tempfile.TemporaryDirectory(prefix="35pcat_") as temp_dir:
+    with tempfile.TemporaryDirectory(prefix="35pcut_") as temp_dir:
         temp_dir = Path(temp_dir)
-        for i, (input_file, csv_file) in enumerate(pairs):
+        for i, (video_file, proj_file) in enumerate(pairs):
             try:
-                process_file(i+1, input_file, csv_file, temp_dir)
+                process_file(i+1, video_file, proj_file, temp_dir)
             except Exception as e:
-                print(f"ERROR processing {input_file.name}: {e}")
+                print(f"ERROR processing {video_file.name}: {e}")
 
     print("\nDone. Happy viewing!")
 
