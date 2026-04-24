@@ -83,17 +83,15 @@ def load_segments_from_map(cut_filepath):
     with open(cut_filepath, newline="", encoding="utf-8") as f:
         data = json5.parse(f.read())[0]
         for i, row in enumerate(data["cutSegments"]):
-            start = (row.get("start") or "").strip()
-            end = (row.get("end") or "").strip()
-            label = row.get("name", "").strip()
+            start = (row.get("start", None))
+            end = (row.get("end", None))
+            label = row.get("name", None)
 
-            if not start or not end or not label:
+            if None in [start, end, label]:
                 Utils.print_to_log(f"[{cut_filepath.name}] Skipping segment {i+1}: missing Start/End/Name")
                 continue
 
-            start_s = Utils.time_to_seconds(start)
-            end_s = Utils.time_to_seconds(end)
-            duration = end_s - start_s
+            duration = end - start
             if duration <= 0:
                 error = f"[{cut_filepath.name}] Segment {i} has non-positive duration: {start} -> {end}"
                 Utils.print_to_log(error)
@@ -103,8 +101,6 @@ def load_segments_from_map(cut_filepath):
             cuts.append({
                 "start": start,
                 "end": end,
-                "start_s": start_s,
-                "end_s": end_s,
                 "duration": duration,
                 "filename": out_name,
                 "label": label,
@@ -190,14 +186,9 @@ def process_file(index, video_file, proj_file, temp_dir):
     for i, cut in enumerate(cuts):
         start = cut['start']
         end = cut['end']
-        start_s = cut['start_s']
-        end_s = cut['end_s']
         duration = cut['duration']
         filename = cut['filename']
         label = cut['label']
-
-        if end_s <= start_s:
-            continue
 
         seg_file = temp_dir / f"ep{index}_seg_{i:03d}_chunk.mkv"
         print(f"\n=== Encoding segment: '{temp_dir}/ep{index}_seg_{i:03d}_chunk.mkv' ===")
