@@ -120,9 +120,10 @@ def ffprobe_streams(input_file):
         "ffprobe", "-v", "error", "-print_format", "json",
         "-show_streams", str(input_file)
     ])
-    return json.loads(data)["streams"]
+    data = json5.parse(data)[0]
+    return data.get("streams", [])
 
-def build_maps(streams):
+def build_ffmpeg_streammaps(streams):
     """select which streams to keep. TODO Make this more configurable"""
     maps = []
     for i, s in enumerate(streams):
@@ -161,12 +162,12 @@ def concat_segments(concat_file, segment_files, final_output):
 # -----------------------------
 def make_reencode_segment(input_file, output_file, start, end, maps):
     """runs a segment of the file through ffmpeg, re-encoding the chunk."""
-    Utils.run([
-        "ffmpeg", "-hide_banner", "-loglevel", "warning", "-y",
-        "-i", str(input_file), "-ss", start, "-to", end,
-        *maps, *VIDEO_ENCODE_ARGS, *AUDIO_ENCODE_ARGS, *SUBTITLE_ARGS,
-        str(output_file)
-    ])
+    args = ["ffmpeg", "-hide_banner", "-loglevel", "warning", "-y",
+    "-i", input_file, "-ss", start, "-to", end,
+    *maps, *VIDEO_ENCODE_ARGS, *AUDIO_ENCODE_ARGS, *SUBTITLE_ARGS,
+    str(output_file)]
+    Utils.print_to_log(f"Running FFMPEG command '{" ".join(args)}'")
+    Utils.run(args)
     print("Done.")
 
 # -----------------------------
@@ -180,7 +181,7 @@ def process_file(index, video_file, proj_file, temp_dir):
     cuts = load_segments_from_map(proj_file)
 
     streams = ffprobe_streams(video_file)
-    maps = build_maps(streams)
+    stream_maps = build_ffmpeg_streammaps(streams)
     segment_files = []
 
     for i, cut in enumerate(cuts):
@@ -190,9 +191,13 @@ def process_file(index, video_file, proj_file, temp_dir):
         filename = cut['filename']
         label = cut['label']
 
+        # TEMPORARY - in the future, intelligently select which video get skipped
+        if not label == "segment":
+            continue
+
         seg_file = temp_dir / f"ep{index}_seg_{i:03d}_chunk.mkv"
         print(f"\n=== Encoding segment: '{temp_dir}/ep{index}_seg_{i:03d}_chunk.mkv' ===")
-        make_reencode_segment(video_file, seg_file, start, end, maps)
+        make_reencode_segment(str(video_file), seg_file, str(start), str(end), stream_maps)
         segment_files.append(seg_file)
 
     concat_file = temp_dir / f"ep{index}_concat.txt"
