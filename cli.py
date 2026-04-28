@@ -96,10 +96,6 @@ def get_cutmap_options():
                     if is_custom:
                         stdscr.addstr(" < Custom > ", COLORS["SELECTED"])
                         selections[get_option_from_index(i)] = len(e["c"])
-                    elif not is_custom and i == current_index:
-                        stdscr.addstr(" < Custom > ", COLORS["ACTIVE"])
-                    else:
-                        stdscr.addstr(" < Custom > ", COLORS["DESELECTED"])
             stdscr.refresh()
             # Wait for character
             key = stdscr.getch()
