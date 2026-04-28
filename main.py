@@ -5,6 +5,7 @@ import sys
 import tempfile
 
 import utils as Utils
+import cli as CLI
 import constants as c
 
 # -----------------------------
@@ -229,6 +230,8 @@ def main():
         return
     else:
         print(f"Found {len(pairs)} pairs.")
+
+    options = CLI.get_cutmap_options()
 
     with tempfile.TemporaryDirectory(prefix="35pcut_") as temp_dir:
         temp_dir = Path(temp_dir)
