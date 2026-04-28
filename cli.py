@@ -87,7 +87,8 @@ def get_cutmap_options():
                             stdscr.move(i+margin_t, margin_l)
                         # if the 1+ indices of the array match, then j is our current config
                         if selections[1:] == j["o"]:
-                            stdscr.addstr(f" < {j["n"]} > ", COLORS["SELECTED"])
+                            stdscr.addstr(f"< {j["n"]} >", COLORS["SELECTED"])
+                            selections[get_option_from_index(i)] = i2
                             is_custom = False
                         elif not selections[1:] == j["o"] and i == current_index:
                             stdscr.addstr(f"  {j["n"]}  ", COLORS["ACTIVE"])
