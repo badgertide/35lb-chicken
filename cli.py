@@ -90,9 +90,9 @@ def get_cutmap_options():
                             stdscr.addstr(f" < {j["n"]} > ", COLORS["SELECTED"])
                             is_custom = False
                         elif not selections[1:] == j["o"] and i == current_index:
-                            stdscr.addstr(f" < {j["n"]} > ", COLORS["ACTIVE"])
+                            stdscr.addstr(f"  {j["n"]}  ", COLORS["ACTIVE"])
                         else:
-                            stdscr.addstr(f" < {j["n"]} > ", COLORS["DESELECTED"])
+                            stdscr.addstr(f"  {j["n"]}  ", COLORS["DESELECTED"])
                     if is_custom:
                         stdscr.addstr(" < Custom > ", COLORS["SELECTED"])
                         selections[get_option_from_index(i)] = len(e["c"])
