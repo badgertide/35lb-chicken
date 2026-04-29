@@ -150,7 +150,7 @@ def get_cutmap_options():
                         selections = selections[:1] + all_presets[current_preset]["o"]
                 stdscr.refresh()
 
-            elif key in [32, 10]:  # Space/Enter key confirms selection
+            elif key in [curses.KEY_ENTER,10,32]:  # Space/Enter key confirms selection
                 break
 
         # Confirm Choices
@@ -167,6 +167,6 @@ def get_cutmap_options():
         stdscr.refresh()
         key = stdscr.getch()  # Wait for key press
 
-        if key in [32,10]:  # Enter key confirms selection
             return {}
+        if key in [curses.KEY_ENTER,10,32]:  # Enter key confirms selection
     return curses.wrapper(menu)
