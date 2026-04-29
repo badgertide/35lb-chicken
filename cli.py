@@ -161,11 +161,12 @@ def get_cutmap_options():
         longest_q = max(question_options, key=lambda d: len(d["q"]))["q"]
         string_options = [f"{i["q"]}" for i in question_options]
 
+        row = 4
         stdscr.addstr(2, 2, "Your selections:", curses.A_BOLD)
         for i, f in enumerate(question_options):
-            stdscr.addstr(i+4, 2, f"{string_options[i]:^{len(longest_q)}} - {f["a"][selected_options[i]]}")
-        # stdscr.addstr(4, 2, f"{'and '+str(len(unselectedOptions))+' others to the archive':^50}")
-        # stdscr.addstr(6, 2, "Press ENTER to confirm or any other key to go back")
+            stdscr.addstr(i+4, 2, f"{string_options[i]:>{len(longest_q)}} - {f["a"][selected_options[i]]}")
+            row += 1
+        stdscr.addstr(row+1, 2, "Press SPACE/ENTER to confirm or any other key to exit")
 
         stdscr.refresh()
         key = stdscr.getch()

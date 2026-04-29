@@ -232,6 +232,8 @@ def main():
         print(f"Found {len(pairs)} pairs.")
 
     options = CLI.get_cutmap_options()
+    if not options:
+        return
 
     with tempfile.TemporaryDirectory(prefix="35pcut_") as temp_dir:
         temp_dir = Path(temp_dir)
