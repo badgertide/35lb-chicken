@@ -155,18 +155,21 @@ def get_cutmap_options():
 
         # Confirm Choices
         #################
+        stdscr.clear()
+        question_options = [i for i in c.CUT_OPTIONS_MENU if i["type"] == "q"]
+        selected_options = selections[1:]
+        longest_q = max(question_options, key=lambda d: len(d["q"]))["q"]
+        string_options = [f"{i["q"]}" for i in question_options]
 
-        # stdscr.clear()
-        # selectedOptions = [options[i] for i in range(len(options)) if selected[i]]
-        # unselectedOptions = [options[i] for i in range(len(options)) if not selected[i]]
-        # stdscr.addstr(2, 2, f"{'You selected '+str(len(selectedOptions))+'/'+str(len(options)):^50}", curses.A_BOLD)
-        # stdscr.addstr(3, 2, f"{'Write '+str(len(selectedOptions))+' selected videos to batchURLs.txt':^50}")
+        stdscr.addstr(2, 2, "Your selections:", curses.A_BOLD)
+        for i, f in enumerate(question_options):
+            stdscr.addstr(i+4, 2, f"{string_options[i]:^{len(longest_q)}} - {f["a"][selected_options[i]]}")
         # stdscr.addstr(4, 2, f"{'and '+str(len(unselectedOptions))+' others to the archive':^50}")
         # stdscr.addstr(6, 2, "Press ENTER to confirm or any other key to go back")
 
         stdscr.refresh()
-        key = stdscr.getch()  # Wait for key press
+        key = stdscr.getch()
 
-            return {}
         if key in [curses.KEY_ENTER,10,32]:  # Enter key confirms selection
+            return selected_options
     return curses.wrapper(menu)
