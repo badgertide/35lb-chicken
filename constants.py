@@ -1683,12 +1683,12 @@ LOSSLESSCUT_SUFFIX = "-proj.llc"
 #     o: Preset Options
 #     t: Alt Text
 # q: Query
-# a: Answers
+#     a: Answers
 CUT_OPTIONS_MENU = [
     {"type": "l", "l": "= Preset Cuts (Enter to set) ="},
     {"type": "c", "c": [
-        {"n": "Default", "o": [1,1,0,0,1,1,2,1,4,0], "t": "5-episode runs, cut titles, teasers, tbc, keep one eyecatcher"},
-        {"n": "Minimal", "o": [0,0,0,1,0,0,0,0,0,0], "t": "Single episodes, only cut filler"},
+        {"n": "Minimal", "o": [0,0,0,0,0,0,0,0,0,0], "t": "Single episodes, only cut filler"},
+        {"n": "Default", "o": [1,1,0,1,1,1,2,1,4,0], "t": "5-episode runs, cut titles, teasers, tbc, keep one eyecatcher"},
         {"n": "Maximum", "o": [2,2,1,2,2,2,2,2,0,0], "t": "One run, cut as much as possible (some episodes end in strange places)"}
     ]},
     {"type": "l", "l": "= Episode Start Options ="},
@@ -1696,14 +1696,14 @@ CUT_OPTIONS_MENU = [
     {"type": "q", "q": "Opening Themes", "a": ["Keep", "On Run Start", "Cut"]},
     {"type": "l", "l": "= Mid-episode Options ="},
     {"type": "q", "q": "Title Cards", "a": ["Keep", "Cut"]},
-    {"type": "q", "q": "Bumpers/Eyecatchers", "a": ["Keep First", "Keep All", "Cut"]},
+    {"type": "q", "q": "Bumpers/Eyecatchers", "a": ["Keep All", "Keep First", "Cut"]},
     {"type": "l", "l": "= Episode End Options ="},
     {"type": "q", "q": "To Be Continued", "a": ["Keep", "On Run End", "Cut"]},
     {"type": "q", "q": "Closing Themes", "a": ["Keep", "On Run End", "Cut"]},
     {"type": "q", "q": "Teasers", "a": ["Keep", "On Run End", "Cut"]},
     {"type": "q", "q": "Signoff Panes", "a": ["Keep", "On Run End", "Cut"]},
     {"type": "l", "l": "= Other Options ="},
-    {"type": "q", "q": "Target Length of Episode Run", "a": ["1", "2", "3", "4", "5"]},
+    {"type": "q", "q": "Episodes Per Run", "a": ["1", "2", "3", "4", "5"]},
     {"type": "l", "l": "1: Scenes, 2: Episodes (Except G-8), 3: All Non-Canon Content"},
     {"type": "q", "q": "Filler Pool", "a": ["1"]},
 ]
