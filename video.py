@@ -19,7 +19,7 @@ AUDIO_ENCODE_ARGS = ["-c:a", "aac", "-b:a", "192k"]
 SUBTITLE_ARGS = ["-c:s", "copy"]
 
 # -----------------------------
-# LLC parsing
+# LLC/time-frame parsing
 # -----------------------------
 def load_segments_from_map(cut_filepath):
     """
@@ -120,18 +120,22 @@ def concat_segments(concat_file, segment_files, final_output):
 # -----------------------------
 # Main per-file processing
 # -----------------------------
-def process_file(index, video_file, proj_file, temp_dir):
+
+# TODO clean up other functionality
+def process_file(video_file, proj_file, options, temp_dir):
     """handles the processing of one file from beginning to end."""
-    output_file = video_file.with_stem(f"{c.CUT_FILE_PREFIX}{video_file.stem}")
+    output_filename = video_file.with_stem(f"{c.CUT_FILE_PREFIX}{video_file.stem}")
 
     print(f"\n=== Processing: {video_file.name} ===")
-    cuts = load_segments_from_map(proj_file)
+    proj_cuts = load_segments_from_map(proj_file)
+    user_cuts = parse_base_spans(proj_cuts, options)
+    return
 
     streams = ffprobe_streams(video_file)
     stream_maps = build_ffmpeg_streammaps(streams)
     segment_files = []
 
-    for i, cut in enumerate(cuts):
+    for i, cut in enumerate(user_cuts):
         start = cut['start']
         end = cut['end']
         duration = cut['duration']
@@ -142,13 +146,13 @@ def process_file(index, video_file, proj_file, temp_dir):
         if not label == "segment":
             continue
 
-        seg_file = temp_dir / f"ep{index}_seg_{i:03d}_chunk.mkv"
-        print(f"\n=== Encoding segment: '{temp_dir}/ep{index}_seg_{i:03d}_chunk.mkv' ===")
+        seg_file = temp_dir / f"ep{video_file.stem}_seg_{i:03d}_chunk.mkv"
+        print(f"\n=== Encoding segment: '{temp_dir}/ep{video_file.stem}_seg_{i:03d}_chunk.mkv' ===")
         make_reencode_segment(str(video_file), seg_file, str(start), str(end), stream_maps)
         segment_files.append(seg_file)
 
-    concat_file = temp_dir / f"ep{index}_concat.txt"
-    concat_segments(concat_file, segment_files, output_file)
+    concat_file = temp_dir / f"ep{video_file.stem}_concat.txt"
+    concat_segments(concat_file, segment_files, output_filename)
 
     print("Deleting temp segment files...")
     for seg_file in segment_files:
@@ -157,4 +161,4 @@ def process_file(index, video_file, proj_file, temp_dir):
     if concat_file.exists():
         concat_file.unlink()
 
-    print(f"Done: {output_file}")
+    print(f"Done: {output_filename}")

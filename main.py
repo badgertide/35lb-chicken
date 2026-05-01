@@ -87,7 +87,7 @@ def main():
         temp_dir = Path(temp_dir)
         for i, (video_file, proj_file) in enumerate(pairs):
             try:
-                video.process_file(i+1, video_file, proj_file, temp_dir)
+                video.process_file(video_file, proj_file, options, temp_dir)
             except Exception as e:
                 print(f"ERROR processing {video_file.name}: {e}")
 
