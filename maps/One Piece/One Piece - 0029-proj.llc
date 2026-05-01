@@ -29,7 +29,7 @@
     {
       start: 205.6220833333333,
       end: 233.23299999999998,
-      name: 'segment',
+      name: 'generic',
       selected: false,
     },
     {
@@ -41,7 +41,7 @@
     {
       start: 242.53395833333332,
       end: 780.0361441726147,
-      name: 'segment',
+      name: 'generic',
       selected: false,
     },
     {
@@ -59,7 +59,7 @@
     {
       start: 794.5506441726147,
       end: 1387.0523333333333,
-      name: 'segment',
+      name: 'generic',
       selected: true,
     },
     {

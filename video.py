@@ -128,7 +128,7 @@ def process_file(video_file, proj_file, options, temp_dir):
 
     print(f"\n=== Processing: {video_file.name} ===")
     proj_cuts = load_segments_from_map(proj_file)
-    user_cuts = parse_base_spans(proj_cuts, options)
+    user_cuts = parse_base_segments(proj_cuts, options)
     return
 
     streams = ffprobe_streams(video_file)
@@ -143,7 +143,7 @@ def process_file(video_file, proj_file, options, temp_dir):
         label = cut['label']
 
         # TEMPORARY - in the future, intelligently select which video get skipped
-        if not label == "segment":
+        if not label == "generic":
             continue
 
         seg_file = temp_dir / f"ep{video_file.stem}_seg_{i:03d}_chunk.mkv"

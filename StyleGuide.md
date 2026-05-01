@@ -30,7 +30,7 @@ Any segment may be written like `name|note` to indicate descriptions or general 
 * This can be left in or out depending on if you feel that episode titles are spoilers
 </details>
 
-<details><summary> segment </summary>
+<details><summary> generic </summary>
 
 * The generic segment type. Played under all circumstances
 * Can contain `filler` segments
@@ -77,7 +77,7 @@ Any segment may be written like `name|note` to indicate descriptions or general 
 
 * Used to mark segments that should never be included in the render under any circumstances
 * Optionally the tag is written as `filler|description` to describe the scene or the reason it was selected for pruning. If you want to search through these and remove segments that you want to keep, that's perfectly fine
-* **IMPORTANT** - `filler` tags can be placed within larger `segment` tags, but they must be entirely contained within one tag without extending beyond either border or overlapping another `filler`. Placing a `filler` tag within any other tag will have no effect
+* **IMPORTANT** - `filler` tags can be placed within larger `generic` tags, but they must be entirely contained within one tag without extending beyond either border or overlapping another `filler`. Placing a `filler` tag within any other tag will have no effect
 </details>
 
 <details><summary> noncanon - cut all noncanon scenes (except G-8) </summary>

@@ -99,6 +99,7 @@ def get_template_stretch_factor(segments, base_len):
 def get_cuts_by_episode_num(ep, length):
     cut_segments = []
     template_i = get_template_by_episode_num(ep)
+    # TODO genericize this
     template_segments = c.TEMPLATES["OnePiece"][template_i]["cut_segments"]
     stretch_factor = get_template_stretch_factor(template_segments, length)
 
