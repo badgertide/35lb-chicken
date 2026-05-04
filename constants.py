@@ -1707,3 +1707,7 @@ CUT_OPTIONS_MENU = [
     {"type": "l", "l": "1: Scenes, 2: Episodes (Except G-8), 3: All Non-Canon Content"},
     {"type": "q", "q": "Filler Pool", "a": ["1"]},
 ]
+
+FILLER_TYPES = ["filler"]
+MAX_LOOPS = 10000
+
