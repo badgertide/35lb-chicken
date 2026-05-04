@@ -1,5 +1,7 @@
 import subprocess
 import shutil
+import base64
+import json5
 
 def run(cmd):
     print(">", " ".join(map(str, cmd)))
@@ -22,5 +24,9 @@ def check_dependency(name):
         return False
     return True
 
-def print_to_log(log):
+
+def print_to_log(log, obj=None):
     print(log)
+    if obj:
+        base64str = json5.dumps(obj, separators=(',', ':')).encode()
+        print(f"b64: {base64.b64encode(base64str).decode()}")
