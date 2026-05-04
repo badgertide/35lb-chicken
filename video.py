@@ -1,5 +1,5 @@
 import sys
-import json5 # use instead of 'json' because LosslessCut does not use standard JSON
+import json5 # use instead of 'json' for LosslessCut's nonstandard .llc files
 
 import utils as Utils
 import constants as c

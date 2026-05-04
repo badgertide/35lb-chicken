@@ -24,6 +24,10 @@ def check_dependency(name):
         return False
     return True
 
+def replace_element_with_list(source, insert, index):
+    """replace an element in a source list with a list
+    used for breaking up one element into many elements"""
+    return source[:index] + insert + source[index+1:]
 
 def print_to_log(log, obj=None):
     print(log)
