@@ -5,12 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Current File with Arguments",
+            "name": "Run current file",
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Run main.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "args": "'D:\\One Piece (0001-1071) [1080p]\\Season 01 - East Blue'",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Run tests with coverage",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "coverage",
+            "args": ["run", "-m", "unittest", "discover", "-p", "*_test.py"],
             "console": "integratedTerminal",
-            "args": "${command:pickArgs}"
-        }
+            "postDebugTask": "open-coverage-report"
+        },
     ]
 }
