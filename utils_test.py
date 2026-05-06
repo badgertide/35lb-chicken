@@ -1,16 +1,16 @@
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import Mock, patch
 
 
 def setup_context():
-    subprocess_stub = MagicMock()
-    shutil_stub = MagicMock()
-    base64_stub = MagicMock()
-    json5_stub = MagicMock()
-    base64_stub.b64encode.return_value = MagicMock()
-    json5_stub.dumps.return_value = MagicMock()
+    subprocess_stub = Mock()
+    shutil_stub = Mock()
+    base64_stub = Mock()
+    json5_stub = Mock()
+    base64_stub.b64encode.return_value = Mock()
+    json5_stub.dumps.return_value = Mock()
 
-    subprocess_stub.run.return_value = {"stdout": "stdout"}
+    subprocess_stub.run.return_value = Mock(stdout="stdout")
     which_returns = {
         "ffmpeg": "",
         "yt-dlp": None,
@@ -32,6 +32,8 @@ class Test(unittest.TestCase):
     def setUp(self):
         self.context = setup_context()
         self.mocks = self.context["mocks"]
+        self.print_patcher = patch("builtins.print")
+        self.print_patcher.start()
 
         self.subprocess_patcher = patch("utils.subprocess", self.mocks["subprocess"])
         self.subprocess_patcher.start()
@@ -46,17 +48,25 @@ class Test(unittest.TestCase):
         self.unit = utils
 
     def tearDown(self):
+        self.print_patcher.stop()
         self.subprocess_patcher.stop()
         self.shutil_patcher.stop()
         self.base64_patcher.stop()
         self.json5_patcher.stop()
 
-    # ── tests ──────────────────────────────────────────────────────────────
+    # tests ===============================================================
 
     def test_run(self):
-        self.mocks["subprocess"].run.return_value = "YEAH"
         result = self.unit.run("test")
-        self.assertNotEqual(result, "NO")
+        self.assertEqual(result, None)
+        self.mocks["subprocess"].run.assert_called_with("test", check=True)
+
+    def test_run_capture(self):
+        result = self.unit.run_capture("test")
+        args, kwargs = self.mocks["subprocess"].run.call_args
+
+        self.assertEqual(result, "stdout")
+        self.assertEqual(args[0], "test")
 
 
 if __name__ == "__main__":
