@@ -12,8 +12,8 @@ def setup_context():
 
     subprocess_stub.run.return_value = Mock(stdout="stdout")
     which_returns = {
-        "ffmpeg": "",
-        "yt-dlp": None,
+        "ffmpeg": "ffmpeg/path",
+        "yt-dlp": "yt-dlp/path",
     }
     shutil_stub.which.side_effect = lambda arg: which_returns.get(arg)
 
@@ -54,12 +54,15 @@ class Test(unittest.TestCase):
         self.base64_patcher.stop()
         self.json5_patcher.stop()
 
-    # tests ===============================================================
+    # === tests
+    # ===============================================================
 
     def test_run(self):
         result = self.unit.run("test")
         self.assertEqual(result, None)
         self.mocks["subprocess"].run.assert_called_with("test", check=True)
+
+    # ==========
 
     def test_run_capture(self):
         result = self.unit.run_capture("test")
@@ -67,6 +70,45 @@ class Test(unittest.TestCase):
 
         self.assertEqual(result, "stdout")
         self.assertEqual(args[0], "test")
+
+    # ==========
+
+
+    def test_time_to_seconds__zero(self):
+        result = self.unit.time_to_seconds("0:00:00")
+        self.assertEqual(result, 0.0)
+
+    def test_time_to_seconds__hour(self):
+        result = self.unit.time_to_seconds("1:00:00")
+        self.assertEqual(result, 3600.0)
+
+    def test_time_to_seconds__negative_hour(self):
+        result = self.unit.time_to_seconds("-1:00:00")
+        self.assertEqual(result, -3600.0)
+
+    def test_time_to_seconds__arbitrary(self):
+        result = self.unit.time_to_seconds("46:12:53.12345")
+        self.assertEqual(result, 166373.12345)
+
+    def test_time_to_seconds__invalid_timestamp_minutes(self):
+        self.assertRaises(ValueError, self.unit.time_to_seconds, "12:00")
+
+    def test_time_to_seconds__invalid_timestamp_seconds(self):
+        self.assertRaises(ValueError, self.unit.time_to_seconds, "53")
+
+    # ==========
+
+    def test_check_dependency__ffmpeg_exists(self):
+        result = self.unit.check_dependency("ffmpeg")
+        self.assertTrue(result)
+
+    def test_check_dependency__ytdlp_exists(self):
+        result = self.unit.check_dependency("yt-dlp")
+        self.assertTrue(result)
+
+    def test_check_dependency__not_exists(self):
+        result = self.unit.check_dependency("invalid-package")
+        self.assertFalse(result)
 
 
 if __name__ == "__main__":
