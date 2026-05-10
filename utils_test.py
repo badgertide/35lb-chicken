@@ -110,6 +110,23 @@ class Test(unittest.TestCase):
         result = self.unit.check_dependency("invalid-package")
         self.assertFalse(result)
 
+    # ==========
+
+    def test_replace_element_with_list__first(self):
+        result = self.unit.replace_element_with_list([1,2,3], [4,5,6], 0)
+        self.assertEqual(result, [4,5,6,2,3])
+
+    def test_replace_element_with_list__mid(self):
+        result = self.unit.replace_element_with_list([1,2,3], [4,5,6], 1)
+        self.assertEqual(result, [1,4,5,6,3])
+
+    def test_replace_element_with_list__last(self):
+        result = self.unit.replace_element_with_list([1,2,3], [4,5,6], 2)
+        self.assertEqual(result, [1,2,4,5,6])
+
+    def test_replace_element_with_list__empty(self):
+        result = self.unit.replace_element_with_list([1,2,3], [], 1)
+        self.assertEqual(result, [1,3])
 
 if __name__ == "__main__":
     unittest.main(exit=False)

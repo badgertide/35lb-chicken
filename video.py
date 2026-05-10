@@ -1,4 +1,3 @@
-import sys
 import json5 # use instead of 'json' for LosslessCut's nonstandard .llc files
 
 import utils as Utils
@@ -59,8 +58,9 @@ def load_segments_from_map(cut_filepath):
     return cuts
 
 def parse_segment_cuts(base_segments, options):
-    """To cut out segments from the video, first sort every segment by its start time.
-    Then check every `generic` for an overlapping `filler` and cut along those lines"""
+    """To cut out segments from the video, check every `generic`
+     for an overlapping `filler` and cut along those lines
+     See test file for more in-depth specs"""
     # Sort by start time. If any segments start at the same time, make sure the generic is first
     # "label != generic" treats "generic" as 0, everything else as 1
     base_segments = sorted(base_segments, key=lambda d:(d["start"], d["label"]!="generic"))
