@@ -29,8 +29,8 @@ def replace_element_with_list(source, insert, index):
     used for breaking up one element into many elements"""
     return source[:index] + insert + source[index+1:]
 
-def print_to_log(log, obj=None): # pragma: no cover
-    print(log)
+def log(msg, obj=None): # pragma: no cover
+    print(msg)
     if obj:
         base64str = json5.dumps(obj, separators=(',', ':')).encode()
         print(f"b64: {base64.b64encode(base64str).decode()}")
