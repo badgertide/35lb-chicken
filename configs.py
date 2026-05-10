@@ -1,8 +1,8 @@
 """This gets a little complex and I want it to be
     as useable as possible.
     l: Label
-    c: Config
-        n: Config Name
+    p: Preset
+        n: Preset Name
         o: Preset Options
         t: Alt Text
     q: Query
@@ -10,14 +10,14 @@
 
 import utils as Utils
 
-class CutConfig:
+class _CutConfig:
     """Holds and manages the CLI menu"""
     _instance = None
 
     def __init__(self):
-        self.configs = {
+        self.presets = {
             "l": "= Preset Cuts (Enter to set) =",
-            "c": [
+            "p": [
                 {"n": "Minimal", "o": [0,0,0,0,0,0,0,0,0,0], "t": "Single episodes, only cut filler"},
                 {"n": "Default", "o": [1,1,0,1,1,1,2,1,4,0], "t": "5-episode runs, cut titles, teasers, tbc, keep one eyecatcher"},
                 {"n": "Maximum", "o": [2,2,1,2,2,2,2,2,0,0], "t": "One run, cut as much as possible (some episodes end in strange places)"}
@@ -79,22 +79,33 @@ class CutConfig:
         self._validate()
 
     def _validate(self):
-        internal_configs = self.configs["c"]
+        internal_presets = self.presets["p"]
         found_error = False
-        for c in internal_configs:
+        for c in internal_presets:
             c_error = False
             # check that each config has the same number of options as the menu offers
             if len(c["o"]) != len(self.menu):
-                Utils.log(f"ERROR: CutConfig preset [{c["n"]}] is length [{len(c["o"])}], should be [{len(self.menu)}]")
+                Utils.log(f"ERROR: CutConfig - Preset [{c["n"]}] is length [{len(c["o"])}], should be [{len(self.menu)}]")
                 found_error = True
                 c_error = True
             for j, o in enumerate(c["o"]):
-                # for the current config, check that all preset options exist 
+                # for the current config, check that all preset options exist
                 if not c_error and not 0 <= o < len(self.menu[j]["a"]):
-                    Utils.log(f"ERROR: CutConfig preset [{c["n"]}] has invalid selection [{o}] for option [{j}]")
+                    Utils.log(f"ERROR: CutConfig - Preset [{c["n"]}] has invalid selection [{o}] for option [{j}]")
                     found_error = True
         if found_error:
             raise IndexError
+        # Check that every option has a label
+        if"l" not in self.presets:
+            Utils.log("ERROR: CutConfig - Config is lacking a label")
+            found_error = True
+        for i, o in enumerate(self.menu):
+            if not "l" in o:
+                Utils.log(f"ERROR: CutConfig - Menu option [{i}] is lacking a label")
+                found_error = True
+        if found_error:
+            raise ValueError
+
 
     def __new__(cls):
         # enforce singleton
@@ -104,8 +115,8 @@ class CutConfig:
     
     # Getters ==========
 
-    def get_configs(self):
-        return self.configs
+    def get_presets(self):
+        return self.presets
 
     def get_menu_length(self):
         return len(self.menu)
@@ -124,6 +135,15 @@ class CutConfig:
             return self.state[i]
         else:
             raise IndexError
+    
+    def get_current_preset(self):
+        """if state is [0,0,0]
+        and presets are [2,2,2], [1,1,1], and [0,0,0],
+        return 2 to indicate that 2 is the currently active preset"""
+        for i, p in enumerate(self.presets["p"]):
+            if self.state == p["o"]:
+                return i
+        return -1
 
     # Setters ==========
 
@@ -137,3 +157,5 @@ class CutConfig:
             Utils.log(f"ERROR: CutConfig set_selection({i}, {selection}) is out of range")
             raise IndexError
     # TODO more setters probably
+
+cut_config = _CutConfig()

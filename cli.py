@@ -5,6 +5,7 @@ import curses
 import shutil
 import constants as c
 import utils as Utils
+from configs import cut_config
 
 COLORS = {
     # SELECTED
@@ -33,6 +34,7 @@ def get_cutmap_options():
     def get_option_from_index(i):
         """the cut menu and the actual options don't match up due to the labels
         Translate the absolute index to the nth option (ex. 7 -> 4)"""
+        # REMOVING
         if options[i]["type"] == "l":
             return None
         return sum(1 for x in options[:i+1] if not x["type"] == "l") - 1
