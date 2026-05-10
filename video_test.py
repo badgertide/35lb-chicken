@@ -14,7 +14,7 @@ def setup_context():
     }
 
     json5_stub.parse.return_value = "test_data"
-    utils_stub.print_to_log.return_value = ""
+    utils_stub.log.return_value = ""
     utils_stub.run.return_value = ""
     utils_stub.run_capture.return_value = "test_data"
 

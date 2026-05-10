@@ -46,15 +46,15 @@ def get_projects_for_cutting(root: Path):
             with open(dirpath / p, newline="", encoding="utf-8") as f:
                 fdata = json5.parse(f.read())[0]
                 if fdata["version"] != 2:
-                    Utils.print_to_log(f"Skipping project file '{p}', version={fdata["version"]}, but only version 2 is supported")
+                    Utils.log(f"Skipping project file '{p}', version={fdata["version"]}, but only version 2 is supported")
                     continue
                 target_mediafile = os.path.join(dirpath, fdata["mediaFileName"])
                 if not os.path.isfile(target_mediafile):
-                    Utils.print_to_log(f"WARN: Project file '{p}' claims file {fdata["mediaFileName"]}, which was not found")
+                    Utils.log(f"WARN: Project file '{p}' claims file {fdata["mediaFileName"]}, which was not found")
                     continue
                 target_mediafile_rendered = os.path.join(dirpath, c.CUT_FILE_PREFIX + fdata["mediaFileName"])
                 if os.path.isfile(target_mediafile_rendered):
-                    Utils.print_to_log(f"Rendered video '{c.CUT_FILE_PREFIX + fdata["mediaFileName"]}' already exists. Skipping")
+                    Utils.log(f"Rendered video '{c.CUT_FILE_PREFIX + fdata["mediaFileName"]}' already exists. Skipping")
                     continue
                 pairs.append((Path(target_mediafile), Path(dirpath / p)))
     return pairs

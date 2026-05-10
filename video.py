@@ -34,13 +34,13 @@ def load_segments_from_map(cut_filepath):
             label = row.get("name", None)
 
             if None in [start, end, label]:
-                Utils.print_to_log(f"[{cut_filepath.name}] Skipping segment {i+1}: missing Start/End/Name")
+                Utils.log(f"[{cut_filepath.name}] Skipping segment {i+1}: missing Start/End/Name")
                 continue
 
             duration = end - start
             if duration <= 0:
                 error = f"[{cut_filepath.name}] Segment {i} has non-positive duration: {start} -> {end}"
-                Utils.print_to_log(error)
+                Utils.log(error)
                 raise ValueError(error)
 
             out_name = f"segment_{i:02d}"
@@ -53,7 +53,7 @@ def load_segments_from_map(cut_filepath):
             })
     if not cuts:
         error = f"No valid cuts found in project: {cut_filepath}"
-        Utils.print_to_log(error)
+        Utils.log(error)
         raise RuntimeError(error)
     return cuts
 
@@ -118,7 +118,7 @@ def slice_generic_by_fillers(generic, fillers):
         filler_start_is_contained = f["start"] >= s["start"]
         filler_end_is_contained = f["end"] <= s["end"]
         if not segment_is_normal and filler_is_normal and filler_start_is_contained and filler_end_is_contained:
-            Utils.print_to_log("ERROR: Malformed segments in slice_filler_from_segment()", {"s": s, "f": f})
+            Utils.log("ERROR: Malformed segments in slice_filler_from_segment()", {"s": s, "f": f})
             return []
         slices = [dict(s), dict(s)]
         # split this segment into [ s1 [f] s2 ]
@@ -146,7 +146,7 @@ def slice_generic_by_fillers(generic, fillers):
     loops = 0
     while (len(overlaps)):
         if loops > c.MAX_LOOPS:
-            Utils.print_to_log("ERROR: Maximum loops reached in get_segment_overlaps()", {"generic": generic, "fillers": fillers})
+            Utils.log("ERROR: Maximum loops reached in get_segment_overlaps()", {"generic": generic, "fillers": fillers})
             cleared_segments = []
             break
         for i, j in enumerate(candidates):
@@ -163,10 +163,10 @@ def slice_generic_by_fillers(generic, fillers):
         else:
             if not overlaps:
                 # success
-                Utils.print_to_log(f"[{len(fillers)}] overlaps removed from segment [{generic["filename"]}] resulting in [{len(cleared_segments)}] new segments")
+                Utils.log(f"[{len(fillers)}] overlaps removed from segment [{generic["filename"]}] resulting in [{len(cleared_segments)}] new segments")
             if not candidates:
                 # ???
-                Utils.print_to_log(f"WARN: Segment [{generic["filename"]}] resulted in [{len(candidates)}] candidate segments in get_segment_overlaps()", {"generic": generic, "fillers": fillers})
+                Utils.log(f"WARN: Segment [{generic["filename"]}] resulted in [{len(candidates)}] candidate segments in get_segment_overlaps()", {"generic": generic, "fillers": fillers})
         loops += 1
     return cleared_segments
 
@@ -210,7 +210,7 @@ def make_reencode_segment(input_file, output_file, start, end, maps):
     "-i", input_file, "-ss", start, "-to", end,
     *maps, *VIDEO_ENCODE_ARGS, *AUDIO_ENCODE_ARGS, *SUBTITLE_ARGS,
     str(output_file)]
-    Utils.print_to_log(f"Running FFMPEG command '{" ".join(args)}'")
+    Utils.log(f"Running FFMPEG command '{" ".join(args)}'")
     Utils.run(args)
     print("Done.")
 

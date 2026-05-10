@@ -122,7 +122,7 @@ def get_cutmap_options():
 
             elif key in [curses.KEY_LEFT, 452]:
                 if options[current_index]["type"] == "l":
-                    Utils.print_to_log(f"WARN: index {current_index} is a label")
+                    Utils.log(f"WARN: index {current_index} is a label")
                 elif options[current_index]["type"] == "q":
                     if selections[option_index] > 0:
                         selections[option_index] -= 1
@@ -136,7 +136,7 @@ def get_cutmap_options():
 
             elif key in [curses.KEY_RIGHT, 454]:
                 if options[current_index]["type"] == "l":
-                    Utils.print_to_log(f"WARN: index {current_index} is a label")
+                    Utils.log(f"WARN: index {current_index} is a label")
                 elif options[current_index]["type"] == "q":
                     option_index = get_option_from_index(current_index)
                     if selections[option_index] < len(options[current_index]["a"])-1:
