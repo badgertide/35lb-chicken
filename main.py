@@ -79,8 +79,9 @@ def main():
     else:
         print(f"Found {len(pairs)} pairs.")
 
-    options = CLI.get_cutmap_options()
-    if not options:
+    response = CLI.set_cutmap_options()
+    if response == -1:
+        Utils.log("INFO: User did not confirm choices. Exiting.")
         return
 
     with tempfile.TemporaryDirectory(prefix="35pcut_") as temp_dir:

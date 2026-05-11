@@ -29,23 +29,108 @@ def init_colors(stdscr):
         curses.init_pair(i, fg, bg)
         COLORS[name] = curses.color_pair(i)
 
-def get_cutmap_options():
-    options = c.CUT_OPTIONS_MENU
-    def get_option_from_index(i):
-        """the cut menu and the actual options don't match up due to the labels
-        Translate the absolute index to the nth option (ex. 7 -> 4)"""
-        # REMOVING
-        if options[i]["type"] == "l":
-            return None
-        return sum(1 for x in options[:i+1] if not x["type"] == "l") - 1
+def print_preset_options(stdscr, tmargin: int, lmargin: int, is_active: bool):
+    """Input: (stdscr, tmargin: int, lmargin: int, is_active: bool)
+    Output: tmargin: the new margin to begin printing from after these preset"""
+    preset_config = cut_config.get_presets()
+    # print label
+    if len(preset_config["l"]) > 0:
+        stdscr.addstr(tmargin, lmargin, preset_config["l"])
+        tmargin += 1
+    # print presets
+    preset_index = cut_config.get_current_preset_index()
+    for i, j in enumerate(preset_config["p"]):
+        if i == 0:
+            stdscr.move(tmargin, lmargin)
+        if i == preset_index:
+            stdscr.addstr(f"< {j["n"]} >", COLORS["SELECTED"])
+        else:
+            if is_active:
+                stdscr.addstr(f"  {j["n"]}  ", COLORS["ACTIVE"])
+            else:
+                stdscr.addstr(f"  {j["n"]}  ", COLORS["DESELECTED"])
+    if preset_index == -1:
+        stdscr.addstr(" < Custom > ", COLORS["SELECTED"])
+    # return the new top margin after printing all of this
+    return tmargin + 1
 
+def print_menu_options(stdscr, tmargin: int, lmargin: int, current_index: int):
+    menu_len = cut_config.get_menu_length()
+    for i in range(menu_len):
+        menu_option = cut_config.get_menu_option_by_index(i)
+
+        # if there is a label, print it
+        if len(menu_option["l"]) > 0:
+            stdscr.addstr(i+tmargin, lmargin, menu_option["l"], COLORS["LABEL"])
+            tmargin += 1 # assumes that the label is a one-liner
+
+        # print selectables
+        q_string = f"{menu_option["q"]} "
+        if i == current_index:
+            stdscr.addstr(i+tmargin, lmargin, q_string, COLORS["ACTIVE"])
+        else:
+            stdscr.addstr(i+tmargin, lmargin, q_string, COLORS["INACTIVE"])
+        for j, o in enumerate(menu_option["a"]):
+            if j == 0:
+                stdscr.move(i+tmargin, lmargin + len(q_string))
+            if cut_config.get_state_by_index(i) == j:
+                stdscr.addstr(f" {o} ", COLORS["SELECTED"])
+            else:
+                stdscr.addstr(f" {o} ", COLORS["DESELECTED"])
+
+def handle_keypress(stdscr, current_index):
+    """handles arrow keys and returns the updated index. -1 through len(menu)-1
+    if the user confirms their choice, return None"""
+    key = stdscr.getch()
+
+    # Navigation
+    if key in [curses.KEY_UP, 450]:
+        # allow the index to reach -1 for selecting presets
+        if current_index > -1:
+            return current_index - 1
+    elif key in [curses.KEY_DOWN, 456]:
+        if current_index < cut_config.get_menu_length()-1:
+            return current_index + 1
+    elif key in [curses.KEY_LEFT, 452]:
+        cut_config.set_decrement_option_by_index(current_index)
+        return current_index
+    elif key in [curses.KEY_RIGHT, 454]:
+        cut_config.set_increment_option_by_index(current_index)
+        return current_index
+    elif key in [curses.KEY_ENTER,10,32]:  # Space/Enter key confirms selection
+        return None
+
+def confirm_choices(stdscr):
+    stdscr.clear()
+    longest = cut_config.get_longest_question_len()
+    row = 4
+    stdscr.addstr(2, 2, "Your selections:", curses.A_BOLD)
+
+    for i in range(cut_config.get_menu_length()):
+        option = cut_config.get_menu_option_by_index(i)
+        question = option["q"]
+        state = cut_config.get_state_by_index(i)
+        stdscr.addstr(i+4, 2, f"{question:>{longest}} - {option["a"][state]}")
+        row += 1
+    stdscr.addstr(row+1, 2, "Press SPACE/ENTER to confirm or any other key to exit")
+
+    stdscr.refresh()
+    key = stdscr.getch()
+
+    if key in [curses.KEY_ENTER,10,32]:  # Enter key confirms selection
+        return
+    else:
+        return -1
+
+def set_cutmap_options():
+    """main CLI function for selecting cut options
+    returns: -1 if user did not confirm choices"""
     def menu(stdscr):
         stdscr.keypad(True)
         curses.curs_set(0)
         init_colors(stdscr)
-        # although the options array has 17 elements, there are only 11 valid options
-        selections = [0] * len([x for x in options if not x["type"] == "l"])  # Track selections
-        current_index = 1  # Current menu position
+        current_index = 0  # Current menu position
+        margin_l = 2
 
         while True:
             stdscr.clear()
@@ -57,122 +142,17 @@ def get_cutmap_options():
                 ""
             ]
             margin_t = len(inst)
-            margin_l = 2
-            max_height, max_width = stdscr.getmaxyx()
-
 
             for i, line in enumerate(inst):
                 stdscr.addstr(i, margin_l, line)
 
-            # add line from all elements
-            for i, e in enumerate(options):
-                if e["type"] == "l":
-                    label = e["l"]
-                    stdscr.addstr(i+margin_t, margin_l, label, COLORS["LABEL"])
-                elif e["type"] == "q":
-                    q_string = f"{e["q"]} "
-                    if i == current_index:
-                        stdscr.addstr(i+margin_t, margin_l, q_string, COLORS["ACTIVE"])
-                    else:
-                        stdscr.addstr(i+margin_t, margin_l, q_string, COLORS["INACTIVE"])
-                    for i2, j in enumerate(e["a"]):
-                        if i2 == 0:
-                            stdscr.move(i+margin_t, margin_l + len(q_string))
-                        if selections[get_option_from_index(i)] == i2:
-                            stdscr.addstr(f" {j} ", COLORS["SELECTED"])
-                        else:
-                            stdscr.addstr(f" {j} ", COLORS["DESELECTED"])
-                elif e["type"] == "c":
-                    is_custom = True
-                    for i2, j in enumerate(e["c"]):
-                        if i2 == 0:
-                            stdscr.move(i+margin_t, margin_l)
-                        # if the 1+ indices of the array match, then j is our current config
-                        if selections[1:] == j["o"]:
-                            stdscr.addstr(f"< {j["n"]} >", COLORS["SELECTED"])
-                            selections[get_option_from_index(i)] = i2
-                            is_custom = False
-                        elif not selections[1:] == j["o"] and i == current_index:
-                            stdscr.addstr(f"  {j["n"]}  ", COLORS["ACTIVE"])
-                        else:
-                            stdscr.addstr(f"  {j["n"]}  ", COLORS["DESELECTED"])
-                    if is_custom:
-                        stdscr.addstr(" < Custom > ", COLORS["SELECTED"])
-                        selections[get_option_from_index(i)] = len(e["c"])
-            stdscr.refresh()
-            # Wait for character
-            key = stdscr.getch()
-            option_index = get_option_from_index(current_index)
-
-            # Navigation
-            if key in [curses.KEY_UP, 450]:
-                # Navigate up to the prev non-label, no loop
-                if current_index > 0:
-                    nextup = current_index - 1
-                    while nextup > 0 and options[nextup]["type"] == "l":
-                        nextup -= 1
-                    if nextup > 0:
-                        current_index = nextup
-
-            elif key in [curses.KEY_DOWN, 456]:
-                # Navigate down to the next non-label, no loop
-                if current_index < len(options)-1:
-                    nextup = current_index + 1
-                    while nextup < len(options)-1 and options[nextup]["type"] == "l":
-                        nextup += 1
-                    current_index = nextup
-
-            elif key in [curses.KEY_LEFT, 452]:
-                if options[current_index]["type"] == "l":
-                    Utils.log(f"WARN: index {current_index} is a label")
-                elif options[current_index]["type"] == "q":
-                    if selections[option_index] > 0:
-                        selections[option_index] -= 1
-                elif options[current_index]["type"] == "c":
-                    current_preset = selections[option_index]
-                    all_presets = options[current_index]["c"]
-                    if current_preset > 0:
-                        selections[option_index] -= 1
-                        current_preset = selections[option_index]
-                        selections = selections[:1] + all_presets[current_preset]["o"]
-
-            elif key in [curses.KEY_RIGHT, 454]:
-                if options[current_index]["type"] == "l":
-                    Utils.log(f"WARN: index {current_index} is a label")
-                elif options[current_index]["type"] == "q":
-                    option_index = get_option_from_index(current_index)
-                    if selections[option_index] < len(options[current_index]["a"])-1:
-                        selections[option_index] += 1
-                elif options[current_index]["type"] == "c":
-                    current_preset = selections[option_index]
-                    all_presets = options[current_index]["c"]
-                    if selections[option_index] < len(all_presets)-1:
-                        selections[option_index] += 1
-                        current_preset = selections[option_index]
-                        selections = selections[:1] + all_presets[current_preset]["o"]
-                stdscr.refresh()
-
-            elif key in [curses.KEY_ENTER,10,32]:  # Space/Enter key confirms selection
+            margin_t = print_preset_options(stdscr, margin_t, margin_l, current_index == -1)
+            print_menu_options(stdscr, margin_t, margin_l, current_index)
+            current_index = handle_keypress(stdscr, current_index)
+            if current_index is None:
+                Utils.log("INFO: index of None detected. Exiting.")
                 break
+            stdscr.refresh()
 
-        # Confirm Choices
-        #################
-        stdscr.clear()
-        question_options = [i for i in c.CUT_OPTIONS_MENU if i["type"] == "q"]
-        selected_options = selections[1:]
-        longest_q = max(question_options, key=lambda d: len(d["q"]))["q"]
-        string_options = [f"{i["q"]}" for i in question_options]
-
-        row = 4
-        stdscr.addstr(2, 2, "Your selections:", curses.A_BOLD)
-        for i, f in enumerate(question_options):
-            stdscr.addstr(i+4, 2, f"{string_options[i]:>{len(longest_q)}} - {f["a"][selected_options[i]]}")
-            row += 1
-        stdscr.addstr(row+1, 2, "Press SPACE/ENTER to confirm or any other key to exit")
-
-        stdscr.refresh()
-        key = stdscr.getch()
-
-        if key in [curses.KEY_ENTER,10,32]:  # Enter key confirms selection
-            return selected_options
+        return confirm_choices(stdscr)
     return curses.wrapper(menu)

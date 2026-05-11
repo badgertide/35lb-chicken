@@ -75,7 +75,7 @@ class _CutConfig:
                 "a": ["1"]
             }
         ]
-        self.state = [0] * len(self.menu)
+        self.state = [1,1,0,1,1,1,2,1,4,0]
         self._validate()
 
     def _validate(self):
@@ -118,25 +118,41 @@ class _CutConfig:
     def get_presets(self):
         return self.presets
 
+    def get_preset_options_by_index(self, i: int):
+        if 0 <= i <len(self.presets["p"]):
+            return self.presets["p"][i]
+        else:
+            raise IndexError
+
     def get_menu_length(self):
         return len(self.menu)
 
-    def get_menu_option_at_index(self, i: int):
-        if i>=0 and i<len(self.menu):
+    def get_menu_option_by_index(self, i: int):
+        if 0 <= i <len(self.menu):
             return self.menu[i]
         else:
             raise IndexError
 
+    def get_menu_option_length_by_index(self, i):
+        if 0 <= i <len(self.menu):
+            return len(self.menu[i]["a"])
+        else:
+            raise IndexError
+    
+    def get_longest_question_len(self):
+        longest = max(self.menu, key=lambda x: len(x["q"]))["q"]
+        return len(longest)
+
     def get_state(self):
         return self.state
 
-    def get_selection_at_index(self, i: int):
+    def get_state_by_index(self, i: int):
         if i>=0 and i<len(self.state):
             return self.state[i]
         else:
             raise IndexError
     
-    def get_current_preset(self):
+    def get_current_preset_index(self):
         """if state is [0,0,0]
         and presets are [2,2,2], [1,1,1], and [0,0,0],
         return 2 to indicate that 2 is the currently active preset"""
@@ -156,6 +172,68 @@ class _CutConfig:
         else:
             Utils.log(f"ERROR: CutConfig set_selection({i}, {selection}) is out of range")
             raise IndexError
-    # TODO more setters probably
+
+    def set_state_to_preset(self, i: int):
+        if not 0 <= i <len(self.presets["p"]):
+            raise IndexError
+        else:
+            self.state = list(self.presets["p"][i]["o"])
+
+    def set_increment_option_by_index(self, i:int):
+        """increment the selected option by 1
+        if this is not possible, do nothing"""
+        if i == -1:
+            # special case for selecting presets
+            self._increment_preset(i)
+            return
+        if not 0 <= i <len(self.menu):
+            raise IndexError
+        current = self.get_state_by_index(i)
+        length = len(self.menu[i]["a"])
+        if current < length - 1:
+            self.set_selection(i, current + 1)
+
+    def set_decrement_option_by_index(self, i:int):
+        """decrement the selected option by 1
+        if this is not possible, do nothing"""
+        if i == -1:
+            # special case for selecting presets
+            self._decrement_preset(i)
+            return
+        if not 0 <= i <len(self.menu):
+            raise IndexError
+        current = self.get_state_by_index(i)
+        if current > 0:
+            self.set_selection(i, current - 1)
+    
+    # Presets ==========
+    # Presets don't have an integer to track which one is selected
+    # since they select and deselect as the user marks options
+    # Presets: [0,1,2], -1 == Custom
+
+    def _increment_preset(self, i):
+        # get the currently used preset
+        current_index = self.get_current_preset_index()
+        length = len(self.presets["p"])
+        # if no preset, do nothing
+        if current_index == -1:
+            return
+        elif current_index >= length-1:
+            return
+        else:
+            self.set_state_to_preset(current_index+1)
+        
+
+    def _decrement_preset(self, i):
+        # get the currently used preset
+        current_index = self.get_current_preset_index()
+        length = len(self.presets["p"])
+        # if no preset, set to the last preset
+        if current_index == -1:
+            self.set_state_to_preset(length-1)
+        elif current_index <= 0:
+            return
+        else:
+            self.set_state_to_preset(current_index-1)
 
 cut_config = _CutConfig()
