@@ -8,20 +8,25 @@ def setup_context():
     json5_stub = Mock()
     utils_stub = Mock()
     constants = Mock()
+    cut_config = Mock()
 
     json5_stub.parse.return_value = "test_data"
     utils_stub.log.return_value = ""
     utils_stub.run.return_value = ""
     utils_stub.run_capture.return_value = "test_data"
-    constants.FILLER_TYPES = ["filler"]
+
+    constants.FILLER_TYPES = ["test_filler"]
     constants.MAX_LOOPS = 5,
     constants.CUT_FILE_PREFIX = "test-"
+
+    cut_config.get_selected_fillers.return_value = ["test_filler"]
 
     return {
         "mocks": {
             "json5": json5_stub,
             "utils": utils_stub,
             "constants": constants,
+            "cut_config": cut_config,
         }
     }
 
@@ -41,6 +46,8 @@ class Test(unittest.TestCase):
         self.utils_patcher.start()
         self.constants_patcher = patch("video.c", self.mocks["constants"])
         self.constants_patcher.start()
+        self.config_patcher = patch("video.cut_config", self.mocks["cut_config"])
+        self.config_patcher.start()
 
         import video
         self.unit = video
@@ -50,6 +57,7 @@ class Test(unittest.TestCase):
         self.json5_patcher.stop()
         self.utils_patcher.stop()
         self.constants_patcher.stop()
+        self.config_patcher.stop()
 
     # === tests
     # ===============================================================
@@ -215,46 +223,98 @@ class Test(unittest.TestCase):
 
     def test_psc__no_cuts(self):
         dummy_base_segments = [
-            {
-            "start": 0,
-            "end": 10.0,
-            "label": 'generic'
-            },
-            {
-            "start": 10.0,
-            "end": 20.0,
-            "label": 'generic'
-            },
-            {
-            "start": 20.0,
-            "end": 40.0,
-            "label": 'generic'
-            },
+            {"start": 0,"end": 10.0,"label": 'generic'},
+            {"start": 10.0,"end": 20.0,"label": 'generic'},
+            {"start": 20.0,"end": 40.0,"label": 'generic'},
         ]
         dummy_options = [1,1,0,1,1,1,2,1,4,0] # Default
         expected_result = [
-            {
-            "start": 0,
-            "end": 10.0,
-            "label": 'generic'
-            },
-            {
-            "start": 10.0,
-            "end": 20.0,
-            "label": 'generic'
-            },
-            {
-            "start": 20.0,
-            "end": 40.0,
-            "label": 'generic'
-            },
+            {"start": 0, "end": 10.0, "label": 'generic'},
+            {"start": 10.0, "end": 20.0, "label": 'generic'},
+            {"start": 20.0, "end": 40.0, "label": 'generic'},
         ]
-        self.slice_generic_patcher = patch("video.slice_generic_by_fillers", return_value=expected_result)
+        def mock_slice_generic_side_effects(a, b):
+            return [a]
+        self.slice_generic_patcher = patch("video.slice_generic_by_fillers", side_effect=mock_slice_generic_side_effects)
+        self.slice_generic_patcher.start()
 
         result = self.unit.parse_segment_cuts(dummy_base_segments, dummy_options)
 
+        self.slice_generic_patcher.stop()
+        self.assertEqual(result, expected_result)
+
+    def test_psc__no_cuts__out_of_order(self):
+        dummy_base_segments = [
+            {"start": 20.0,"end": 40.0,"label": 'generic'},
+            {"start": 10.0,"end": 20.0,"label": 'generic'},
+            {"start": 0,"end": 10.0,"label": 'generic'},
+        ]
+        dummy_options = [1,1,0,1,1,1,2,1,4,0] # Default
+        expected_result = [
+            {"start": 0,"end": 10.0,"label": 'generic'},
+            {"start": 10.0,"end": 20.0,"label": 'generic'},
+            {"start": 20.0,"end": 40.0,"label": 'generic'},
+        ]
+        def mock_slice_generic_side_effects(a, b):
+            return [a]
+        self.slice_generic_patcher = patch("video.slice_generic_by_fillers", side_effect=mock_slice_generic_side_effects)
+        self.slice_generic_patcher.start()
+
+        result = self.unit.parse_segment_cuts(dummy_base_segments, dummy_options)
+
+        self.slice_generic_patcher.stop()
+        self.assertEqual(result, expected_result)
+
+    def test_psc__no_cuts__out_of_order__generic_first(self):
+        dummy_base_segments = [
+            {"start": 0,"end": 5.0,"label": 'themeopen'},
+            {"start": 20.0,"end": 40.0,"label": 'generic'},
+            {"start": 10.0,"end": 20.0,"label": 'generic'},
+            {"start": 0,"end": 10.0,"label": 'generic'},
+        ]
+        dummy_options = [1,1,0,1,1,1,2,1,4,0]
+        # if "generic" starts at the same time as any other segment, it should be first in line
+        expected_result = [
+            {"start": 0,"end": 10.0,"label": 'generic'},
+            {"start": 0,"end": 5.0,"label": 'themeopen'},
+            {"start": 10.0,"end": 20.0,"label": 'generic'},
+            {"start": 20.0,"end": 40.0,"label": 'generic'},
+        ]
+        def mock_slice_generic_side_effects(a, b):
+            return [a]
+        self.slice_generic_patcher = patch("video.slice_generic_by_fillers", side_effect=mock_slice_generic_side_effects)
+        self.slice_generic_patcher.start()
+
+        result = self.unit.parse_segment_cuts(dummy_base_segments, dummy_options)
+
+        self.slice_generic_patcher.stop()
         self.assertEqual(result, expected_result)
     
+    def test_psc__one_cut(self):
+        dummy_base_segments = [
+            {"start": 0,"end": 10.0,"label": 'generic'},
+            {"start": 5.0,"end": 7.0,"label": 'test_filler'},
+            {"start": 20.0,"end": 40.0,"label": 'generic'},
+        ]
+        dummy_options = [1,1,0,1,1,1,2,1,4,0]
+        # if "generic" starts at the same time as any other segment, it should be first in line
+        expected_result = [
+            {"start": 0,"end": 5.0,"label": 'generic'},
+            {"start": 7.0,"end": 10.0,"label": 'generic'},
+            {"start": 20.0,"end": 40.0,"label": 'generic'},
+        ]
+        def mock_slice_generic_side_effects(a, b):
+            if (a, b) == (dummy_base_segments[0], [dummy_base_segments[1]]):
+                return expected_result[0:2]
+            return [a]
+        self.slice_generic_patcher = patch("video.slice_generic_by_fillers", side_effect=mock_slice_generic_side_effects)
+        self.slice_generic_patcher.start()
+
+        result = self.unit.parse_segment_cuts(dummy_base_segments, dummy_options)
+
+        self.slice_generic_patcher.stop()
+        self.assertEqual(result, expected_result)
+
     # ==== slice_generic_by_fillers ====
 
     def test_sgbf__case(self):
