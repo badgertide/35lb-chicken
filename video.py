@@ -2,6 +2,7 @@ import json5 # use instead of 'json' for LosslessCut's nonstandard .llc files
 
 import utils as Utils
 import constants as c
+from configs import cut_config
 
 # -----------------------------
 # Settings & Dependencies
@@ -66,16 +67,21 @@ def parse_segment_cuts(base_segments, options):
     base_segments = sorted(base_segments, key=lambda d:(d["start"], d["label"]!="generic"))
     parsed_segments = []
     for i, s in enumerate(base_segments):
-        if not s["label"] in ["generic"] + c.FILLER_TYPES:
+        label = s["label"]
+        if not label in ["generic"] + cut_config.get_selected_fillers():
             # TODO we should check for overlaps that will break things
             # honestly that should be checked by now
             parsed_segments.append(s)
-            continue # only generics have filler unless I can think of a reason otherwise
+            continue # if it's not a generic or a filler, it goes on the list
+        if s["label"] in cut_config.get_selected_fillers():
+            # filler does not get processed on its own. Just skip it
+            continue
         # check each generic against each subsequent segment. Proceed if it is a filler AND it is contained by the generic
         generic = s
         fillers = []
         for s2 in base_segments[i+1:]:
-            if not s2["label"] in c.FILLER_TYPES:
+            label2 = s2["label"]
+            if not label2 in cut_config.get_selected_fillers():
                 continue
             if s2["start"] >= generic["end"]:
                 # if this segment starts after the target ends, we're done
@@ -86,7 +92,7 @@ def parse_segment_cuts(base_segments, options):
         parsed_segments += slice_generic_by_fillers(generic, fillers)
     for i, j in enumerate(parsed_segments):
         # TODO Finish this
-        print(f"segment {i:<3}: {round(j["start"], 2)} -> {round(j["end"], 2)}")
+        Utils.log(f"VERBOSE: segment {i:<3}: {round(j["start"], 2)} -> {round(j["end"], 2)}")
     return parsed_segments
 
 def slice_generic_by_fillers(generic, fillers):

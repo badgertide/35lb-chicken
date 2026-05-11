@@ -9,6 +9,7 @@
         a: Answers"""
 
 import utils as Utils
+import constants as c
 
 class _CutConfig:
     """Holds and manages the CLI menu"""
@@ -160,6 +161,10 @@ class _CutConfig:
             if self.state == p["o"]:
                 return i
         return -1
+
+    def get_selected_fillers(self):
+        # TODO this should return the filler that the user wants to cut
+        return c.FILLER_TYPES
 
     # Setters ==========
 
