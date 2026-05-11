@@ -7,16 +7,15 @@ def setup_context():
     # sys_stub = Mock()
     json5_stub = Mock()
     utils_stub = Mock()
-    constants = {
-        "FILLER_TYPES": ["filler"],
-        "MAX_LOOPS": 5,
-        "CUT_FILE_PREFIX": "test-"
-    }
+    constants = Mock()
 
     json5_stub.parse.return_value = "test_data"
     utils_stub.log.return_value = ""
     utils_stub.run.return_value = ""
     utils_stub.run_capture.return_value = "test_data"
+    constants.FILLER_TYPES = ["filler"]
+    constants.MAX_LOOPS = 5,
+    constants.CUT_FILE_PREFIX = "test-"
 
     return {
         "mocks": {
