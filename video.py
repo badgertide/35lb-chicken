@@ -58,7 +58,7 @@ def load_segments_from_map(cut_filepath):
         raise RuntimeError(error)
     return cuts
 
-def parse_segment_cuts(base_segments, options):
+def parse_segment_cuts(base_segments):
     """To cut out segments from the video, check every `generic`
      for an overlapping `filler` and cut along those lines
      See test file for more in-depth specs"""
@@ -88,12 +88,41 @@ def parse_segment_cuts(base_segments, options):
                 break
             #if s2["start"] >= generic["start"] and s2["end"] <= generic["end"]: # I don't think this is needed
             fillers.append(s2)
-        # BUG 'generic' can be filler. Investigate this
         parsed_segments += slice_generic_by_fillers(generic, fillers)
     for i, j in enumerate(parsed_segments):
         # TODO Finish this
         Utils.log(f"VERBOSE: segment {i:<3}: {round(j["start"], 2)} -> {round(j["end"], 2)}")
     return parsed_segments
+
+def slice_filler_from_segment(segment, filler):
+    """this function requires [   segment   [filler] ]
+    where [filler] is contained within [segment]. [filler] may touch either boundary
+    returns: [[segment_1],[segment_2]], discarding any zero-length segments"""
+    segment_is_normal = segment["start"] < segment["end"]
+    filler_is_normal = filler["start"] < filler["end"]
+    filler_start_is_contained = filler["start"] >= segment["start"]
+    filler_end_is_contained = filler["end"] <= segment["end"]
+    if not segment_is_normal and filler_is_normal and filler_start_is_contained and filler_end_is_contained:
+        Utils.log("ERROR: Malformed segments in slice_filler_from_segment()", {"s": segment, "f": filler})
+        return []
+    slices = [dict(segment), dict(segment)]
+    # split this segment into [ s1 [f] s2 ]
+    # s1 spans from start:s.start, end:f.start
+    slices[0] = {
+        **slices[0],
+        "end": filler["start"],
+        "duration": filler["start"] - segment["start"],
+        "filename": f"{segment["filename"]}_0"
+    }
+    # s2 spans from start:f.end, end:s.end
+    slices[1] = {
+        **slices[1],
+        "start": filler["end"],
+        "duration": segment["end"] - filler["end"],
+        "filename": f"{segment["filename"]}_1"
+    }
+    nonzero_length = [x for x in slices if x["end"] - x["start"] > 0.0]
+    return nonzero_length
 
 def slice_generic_by_fillers(generic, fillers):
     """generic i = [ [ a ]  [   b   ]   [c]     ]
@@ -109,41 +138,11 @@ def slice_generic_by_fillers(generic, fillers):
     - is i6 free of overlap? Yes, Add it to the list
     - No more segments to check
     """
-    def get_segment_overlaps(s, fillers):
+    def get_segment_overlaps(segment, fillers):
         return [i for i in fillers
             if i["start"] < i["end"] and
-            i["start"] < s["end"] and
-            i["end"] > s["start"]]
-    
-    def slice_filler_from_segment(s, f):
-        """this function requires [   segment   [filler] ]
-        where [filler] is contained within [segment]. [filler] may touch either boundary
-        returns: [[segment_1],[segment_2]], discarding any zero-length segments"""
-        segment_is_normal = s["start"] < s["end"]
-        filler_is_normal = f["start"] < f["end"]
-        filler_start_is_contained = f["start"] >= s["start"]
-        filler_end_is_contained = f["end"] <= s["end"]
-        if not segment_is_normal and filler_is_normal and filler_start_is_contained and filler_end_is_contained:
-            Utils.log("ERROR: Malformed segments in slice_filler_from_segment()", {"s": s, "f": f})
-            return []
-        slices = [dict(s), dict(s)]
-        # split this segment into [ s1 [f] s2 ]
-        # s1 spans from start:s.start, end:f.start
-        slices[0] = {
-            **slices[0],
-            "end": f["start"],
-            "duration": f["start"] - s["start"],
-            "filename": f"{s["filename"]}_0"
-        }
-        # s2 spans from start:f.end, end:s.end
-        slices[1] = {
-            **slices[1],
-            "start": f["end"],
-            "duration": s["end"] - f["end"],
-            "filename": f"{s["filename"]}_1"
-        }
-        nonzero_length = [x for x in slices if x["end"] - x["start"] > 0.0]
-        return nonzero_length
+            i["start"] < segment["end"] and
+            i["end"] > segment["start"]]
 
     candidates = [generic]
     overlaps = get_segment_overlaps(generic, fillers)
@@ -240,13 +239,13 @@ def concat_segments(concat_file, segment_files, final_output):
 # -----------------------------
 
 # TODO clean up other functionality
-def process_file(video_file, proj_file, options, temp_dir):
+def process_file(video_file, proj_file, temp_dir):
     """handles the processing of one file from beginning to end."""
     output_filename = video_file.with_stem(f"{c.CUT_FILE_PREFIX}{video_file.stem}")
 
     print(f"\n=== Processing: {video_file.name} ===")
     proj_cuts = load_segments_from_map(proj_file)
-    user_cuts = parse_segment_cuts(proj_cuts, options)
+    user_cuts = parse_segment_cuts(proj_cuts)
     return
 
     streams = ffprobe_streams(video_file)

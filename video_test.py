@@ -227,7 +227,6 @@ class Test(unittest.TestCase):
             {"start": 10.0,"end": 20.0,"label": 'generic'},
             {"start": 20.0,"end": 40.0,"label": 'generic'},
         ]
-        dummy_options = [1,1,0,1,1,1,2,1,4,0] # Default
         expected_result = [
             {"start": 0, "end": 10.0, "label": 'generic'},
             {"start": 10.0, "end": 20.0, "label": 'generic'},
@@ -238,7 +237,7 @@ class Test(unittest.TestCase):
         self.slice_generic_patcher = patch("video.slice_generic_by_fillers", side_effect=mock_slice_generic_side_effects)
         self.slice_generic_patcher.start()
 
-        result = self.unit.parse_segment_cuts(dummy_base_segments, dummy_options)
+        result = self.unit.parse_segment_cuts(dummy_base_segments)
 
         self.slice_generic_patcher.stop()
         self.assertEqual(result, expected_result)
@@ -249,7 +248,6 @@ class Test(unittest.TestCase):
             {"start": 10.0,"end": 20.0,"label": 'generic'},
             {"start": 0,"end": 10.0,"label": 'generic'},
         ]
-        dummy_options = [1,1,0,1,1,1,2,1,4,0] # Default
         expected_result = [
             {"start": 0,"end": 10.0,"label": 'generic'},
             {"start": 10.0,"end": 20.0,"label": 'generic'},
@@ -260,7 +258,7 @@ class Test(unittest.TestCase):
         self.slice_generic_patcher = patch("video.slice_generic_by_fillers", side_effect=mock_slice_generic_side_effects)
         self.slice_generic_patcher.start()
 
-        result = self.unit.parse_segment_cuts(dummy_base_segments, dummy_options)
+        result = self.unit.parse_segment_cuts(dummy_base_segments)
 
         self.slice_generic_patcher.stop()
         self.assertEqual(result, expected_result)
@@ -272,7 +270,6 @@ class Test(unittest.TestCase):
             {"start": 10.0,"end": 20.0,"label": 'generic'},
             {"start": 0,"end": 10.0,"label": 'generic'},
         ]
-        dummy_options = [1,1,0,1,1,1,2,1,4,0]
         # if "generic" starts at the same time as any other segment, it should be first in line
         expected_result = [
             {"start": 0,"end": 10.0,"label": 'generic'},
@@ -285,7 +282,7 @@ class Test(unittest.TestCase):
         self.slice_generic_patcher = patch("video.slice_generic_by_fillers", side_effect=mock_slice_generic_side_effects)
         self.slice_generic_patcher.start()
 
-        result = self.unit.parse_segment_cuts(dummy_base_segments, dummy_options)
+        result = self.unit.parse_segment_cuts(dummy_base_segments)
 
         self.slice_generic_patcher.stop()
         self.assertEqual(result, expected_result)
@@ -296,7 +293,6 @@ class Test(unittest.TestCase):
             {"start": 5.0,"end": 7.0,"label": 'test_filler'},
             {"start": 20.0,"end": 40.0,"label": 'generic'},
         ]
-        dummy_options = [1,1,0,1,1,1,2,1,4,0]
         # if "generic" starts at the same time as any other segment, it should be first in line
         expected_result = [
             {"start": 0,"end": 5.0,"label": 'generic'},
@@ -310,9 +306,86 @@ class Test(unittest.TestCase):
         self.slice_generic_patcher = patch("video.slice_generic_by_fillers", side_effect=mock_slice_generic_side_effects)
         self.slice_generic_patcher.start()
 
-        result = self.unit.parse_segment_cuts(dummy_base_segments, dummy_options)
+        result = self.unit.parse_segment_cuts(dummy_base_segments)
 
         self.slice_generic_patcher.stop()
+        self.assertEqual(result, expected_result)
+
+    def test_psc__two_cuts(self):
+        dummy_base_segments = [
+            {"start": 0,"end": 40.0,"label": 'generic'},
+            {"start": 5.0,"end": 7.0,"label": 'test_filler'},
+            {"start": 20.0,"end": 35.0,"label": 'test_filler'},
+        ]
+        # two cuts from the middle of a segment will result in 3 segments
+        expected_result = [
+            {"start": 0,"end": 5.0,"label": 'generic'},
+            {"start": 7.0,"end": 20.0,"label": 'generic'},
+            {"start": 35.0,"end": 40.0,"label": 'generic'},
+        ]
+        def mock_slice_generic_side_effects(a, b):
+            generic = {"start": 0,"end": 40.0,"label": 'generic'}
+            fillers = [
+                {"start": 5.0,"end": 7.0,"label": 'test_filler'},
+                {"start": 20.0,"end": 35.0,"label": 'test_filler'}]
+            if (a, b) == (generic, fillers):
+                return expected_result
+            return []
+        self.slice_generic_patcher = patch("video.slice_generic_by_fillers", side_effect=mock_slice_generic_side_effects)
+        self.slice_generic_patcher.start()
+
+        result = self.unit.parse_segment_cuts(dummy_base_segments)
+
+        self.slice_generic_patcher.stop()
+        self.assertEqual(result, expected_result)
+
+    # ==== slice_filler_from_segment ====
+
+    def test_sffs__filler_is_in_middle(self):
+        dummy_generic = {"start": 0,"end": 40.0,"filename": 'genericFilename'}
+        dummy_filler = {"start": 10.0,"end": 15.0,"filename": 'fillerFilename'}
+        
+        expected_result = [
+            {"start": 0,"end": 10.0, "duration": 10.0,"filename": 'genericFilename_0'},
+            {"start": 15.0,"end": 40.0, "duration": 25.0,"filename": 'genericFilename_1'},
+        ]
+
+        result = self.unit.slice_filler_from_segment(dummy_generic, dummy_filler)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sffs__filler_is_at_start(self):
+        dummy_generic = {"start": 0,"end": 40.0,"filename": 'genericFilename'}
+        dummy_filler = {"start": 0,"end": 15.0,"filename": 'fillerFilename'}
+        
+        expected_result = [
+            {"start": 15.0,"end": 40.0, "duration": 25.0,"filename": 'genericFilename_1'},
+        ]
+
+        result = self.unit.slice_filler_from_segment(dummy_generic, dummy_filler)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sffs__filler_is_at_end(self):
+        dummy_generic = {"start": 0,"end": 40.0,"filename": 'genericFilename'}
+        dummy_filler = {"start": 10.0,"end": 40.0,"filename": 'fillerFilename'}
+        
+        expected_result = [
+            {"start": 0,"end": 10.0, "duration": 10.0,"filename": 'genericFilename_0'},
+        ]
+
+        result = self.unit.slice_filler_from_segment(dummy_generic, dummy_filler)
+
+        self.assertEqual(result, expected_result)
+
+    def test_sffs__filler_matches_segment(self):
+        dummy_generic = {"start": 0,"end": 40.0,"filename": 'genericFilename'}
+        dummy_filler = {"start": 0,"end": 40.0,"filename": 'fillerFilename'}
+        
+        expected_result = []
+
+        result = self.unit.slice_filler_from_segment(dummy_generic, dummy_filler)
+
         self.assertEqual(result, expected_result)
 
     # ==== slice_generic_by_fillers ====
