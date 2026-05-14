@@ -124,7 +124,7 @@ def slice_filler_from_segment(segment, filler):
     nonzero_length = [x for x in slices if x["end"] - x["start"] > 0.0]
     return nonzero_length
 
-def slice_generic_by_fillers(generic, fillers):
+def slice_generic_by_fillers(generic, fillers): #TODO This could be streamlined. It's clunky
     """generic i = [ [ a ]  [   b   ]   [c]     ]
     - is 'i' free of overlaps? No, split by first overlap
     - now we have [i1], i2 = [  [   b   ]   [c]     ]

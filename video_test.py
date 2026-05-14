@@ -16,7 +16,7 @@ def setup_context():
     utils_stub.run_capture.return_value = "test_data"
 
     constants.FILLER_TYPES = ["test_filler"]
-    constants.MAX_LOOPS = 5,
+    constants.MAX_LOOPS = 5
     constants.CUT_FILE_PREFIX = "test-"
 
     cut_config.get_selected_fillers.return_value = ["test_filler"]
