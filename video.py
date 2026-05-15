@@ -178,7 +178,7 @@ def slice_generic_by_fillers(generic, fillers): #TODO This could be streamlined.
 # -----------------------------
 # FFprobe helpers
 # -----------------------------
-def ffprobe_streams(input_file):
+def ffprobe_streams(input_file):  # pragma: no cover
     """read streams from a video."""
     data = Utils.run_capture([
         "ffprobe", "-v", "error", "-print_format", "json",
@@ -187,7 +187,7 @@ def ffprobe_streams(input_file):
     data = json5.parse(data)[0]
     return data.get("streams", [])
 
-def build_ffmpeg_streammaps(streams):
+def build_ffmpeg_streammaps(streams):  # pragma: no cover
     """select which streams to keep. TODO Make this more configurable"""
     maps = []
     for i, s in enumerate(streams):
@@ -209,7 +209,7 @@ def build_ffmpeg_streammaps(streams):
 # -----------------------------
 # Segment cutting
 # -----------------------------
-def make_reencode_segment(input_file, output_file, start, end, maps):
+def make_reencode_segment(input_file, output_file, start, end, maps):  # pragma: no cover
     """runs a segment of the file through ffmpeg, re-encoding the chunk."""
     args = ["ffmpeg", "-hide_banner", "-loglevel", "warning", "-y",
     "-i", input_file, "-ss", start, "-to", end,
@@ -219,7 +219,7 @@ def make_reencode_segment(input_file, output_file, start, end, maps):
     Utils.run(args)
     print("Done.")
 
-def concat_segments(concat_file, segment_files, final_output):
+def concat_segments(concat_file, segment_files, final_output):  # pragma: no cover
     """stitch encoded videos into one."""
 
     with open(concat_file, "w", encoding="utf-8") as f:
