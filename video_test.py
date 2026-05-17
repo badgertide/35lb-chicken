@@ -462,34 +462,6 @@ class Test(unittest.TestCase):
         self.slice_filler_patcher.stop()
         self.assertEqual(result, expected_result)
 
-    def test_sgbf__max_filler_safeguard(self):
-        # max loops is set to 5. This is much higher in prod
-        dummy_generic = {"start": 10.0,"end": 25.0,"label": 'generic', "filename": ""}
-        dummy_fillers = [
-            {"start": 11.0,"end": 12.0,"label": 'test_filler'},
-            {"start": 13.0,"end": 14.0,"label": 'test_filler'},
-            {"start": 15.0,"end": 16.0,"label": 'test_filler'},
-            {"start": 17.0,"end": 18.0,"label": 'test_filler'},
-            {"start": 19.0,"end": 20.0,"label": 'test_filler'},
-            {"start": 21.0,"end": 22.0,"label": 'test_filler'},
-        ]
-        expected_result = []
-        mock_slice_filler_side_effects = [
-            [{"start": 10.0,"end": 11.0,"label": 'generic'}, {"start": 12.0,"end": 25.0,"label": 'generic'}],
-            [{"start": 12.0,"end": 13.0,"label": 'generic'}, {"start": 14.0,"end": 25.0,"label": 'generic'}],
-            [{"start": 14.0,"end": 15.0,"label": 'generic'}, {"start": 16.0,"end": 25.0,"label": 'generic'}],
-            [{"start": 16.0,"end": 17.0,"label": 'generic'}, {"start": 18.0,"end": 25.0,"label": 'generic'}],
-            [{"start": 18.0,"end": 19.0,"label": 'generic'}, {"start": 20.0,"end": 25.0,"label": 'generic'}],
-            [{"start": 20.0,"end": 21.0,"label": 'generic'}, {"start": 22.0,"end": 25.0,"label": 'generic'}]
-        ]
-        self.slice_filler_patcher = patch("video.slice_filler_from_segment", side_effect=mock_slice_filler_side_effects)
-        self.slice_filler_patcher.start()
-
-        result = self.unit.slice_generic_by_fillers(dummy_generic, dummy_fillers)
-
-        self.slice_filler_patcher.stop()
-        self.assertEqual(result, expected_result)
-    
     # ==== ffprobe_streams ====
 
     def test_fs__case(self):

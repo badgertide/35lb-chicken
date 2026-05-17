@@ -1678,5 +1678,4 @@ CUT_FILE_PREFIX = "35pc-"
 LOSSLESSCUT_SUFFIX = "-proj.llc"
 
 FILLER_TYPES = ["filler"]
-MAX_LOOPS = 10000
 

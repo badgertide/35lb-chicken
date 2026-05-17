@@ -148,12 +148,7 @@ def slice_generic_by_fillers(generic, fillers): #TODO This could be streamlined.
     overlaps = get_segment_overlaps(generic, fillers)
     cleared_segments = []
     # keep looping if any candidate has overlaps
-    loops = 0
     while (len(overlaps)):
-        if loops > c.MAX_LOOPS:
-            Utils.log("ERROR: Maximum loops reached in get_segment_overlaps()", {"generic": generic, "fillers": fillers})
-            cleared_segments = []
-            break
         for i, j in enumerate(candidates):
             overlaps = get_segment_overlaps(j, fillers)
             if len(overlaps) == 0:
@@ -172,7 +167,6 @@ def slice_generic_by_fillers(generic, fillers): #TODO This could be streamlined.
             if not candidates:
                 # ???
                 Utils.log(f"WARN: Segment [{generic["filename"]}] resulted in [{len(candidates)}] candidate segments in get_segment_overlaps()", {"generic": generic, "fillers": fillers})
-        loops += 1
     return cleared_segments
 
 # -----------------------------
