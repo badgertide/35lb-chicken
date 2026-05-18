@@ -196,7 +196,7 @@ class _CutConfig:
         keep_last: this segment should render ONLY if this is the last episode in a run
         keep_one: if there are multiples of this segment in an episode, render only one (for now, this is the first one)
         drop: do not render this segment under any circumstances"""
-        cats = {
+        cats = { #TODO make this its own class
             "run_len": 0,
             "filler": 0,
             "keep": ["generic"],
