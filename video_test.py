@@ -390,12 +390,11 @@ class Test(unittest.TestCase):
 
     # ==== slice_generic_by_fillers ====
 
-    @unittest.expectedFailure
     def test_sgbf__no_filler(self):
         dummy_generic = {"start": 10.0,"end": 20.0,"label": 'generic', "filename": ""}
         dummy_fillers = []
         expected_result = [
-            {"start": 10.0,"end": 20.0,"label": 'generic'},
+            {"start": 10.0,"end": 20.0,"label": 'generic', "filename": ""},
         ]
         self.slice_filler_patcher = patch("video.slice_filler_from_segment", side_effect=expected_result)
         self.slice_filler_patcher.start()
@@ -405,12 +404,11 @@ class Test(unittest.TestCase):
         self.slice_filler_patcher.stop()
         self.assertEqual(result, expected_result)
 
-    @unittest.expectedFailure
     def test_sgbf__no_intersecting_filler(self):
         dummy_generic = {"start": 10.0,"end": 20.0,"label": 'generic', "filename": ""}
-        dummy_fillers = [{"start": 30.0,"end": 35.0,"label": 'test_filler'}]
+        dummy_fillers = [{"start": 30.0,"end": 35.0,"label": 'test_filler', "filename": ""}]
         expected_result = [
-            {"start": 10.0,"end": 20.0,"label": 'generic'},
+            {"start": 10.0,"end": 20.0,"label": 'generic', "filename": ""},
         ]
         self.slice_filler_patcher = patch("video.slice_filler_from_segment", side_effect=expected_result)
         self.slice_filler_patcher.start()

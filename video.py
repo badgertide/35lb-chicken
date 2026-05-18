@@ -147,8 +147,10 @@ def slice_generic_by_fillers(generic, fillers): #TODO This could be streamlined.
     candidates = [generic]
     overlaps = get_segment_overlaps(generic, fillers)
     cleared_segments = []
+    if len(overlaps) == 0:
+        cleared_segments.append(generic)
     # keep looping if any candidate has overlaps
-    while (len(overlaps)):
+    while (len(overlaps) > 0):
         for i, j in enumerate(candidates):
             overlaps = get_segment_overlaps(j, fillers)
             if len(overlaps) == 0:
