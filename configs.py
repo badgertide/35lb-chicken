@@ -19,9 +19,9 @@ class _CutConfig:
         self.presets = {
             "l": "= Preset Cuts (Enter to set) =",
             "p": [
-                {"n": "Minimal", "o": [0,0,0,0,0,0,0,0,0,0], "t": "Single episodes, only cut filler"},
-                {"n": "Default", "o": [1,1,0,1,1,1,2,1,4,0], "t": "5-episode runs, cut titles, teasers, tbc, keep one eyecatcher"},
-                {"n": "Maximum", "o": [2,2,1,2,2,2,2,2,0,0], "t": "One run, cut as much as possible (some episodes end in strange places)"}
+                {"n": "Minimal", "o": [0,0,0,0,0,0,0,0,0,0,0], "t": "Single episodes, only cut filler"},
+                {"n": "Default", "o": [1,1,1,0,1,1,1,2,1,4,0], "t": "5-episode runs, cut titles, teasers, tbc, keep one eyecatcher"},
+                {"n": "Maximum", "o": [2,2,2,1,2,2,2,2,2,0,0], "t": "One run, cut as much as possible (some episodes end in strange places)"}
                 ]
             }
         self.menu = [
@@ -34,6 +34,13 @@ class _CutConfig:
             {
                 "l": "",
                 "q": "Opening Themes",
+                "k": "themeopen",
+                "a": ["Keep", "On Run Start", "Cut"]
+            },
+            {
+                "l": "",
+                "q": "Recap",
+                "k": "recap",
                 "a": ["Keep", "On Run Start", "Cut"]
             },
             {
@@ -85,7 +92,7 @@ class _CutConfig:
                 "a": [1]
             }
         ]
-        self.state = [1,1,0,1,1,1,2,1,4,0]
+        self.state = [1,1,1,0,1,1,1,2,1,4,0]
         self._validate()
 
     def _validate(self):
