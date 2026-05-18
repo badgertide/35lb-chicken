@@ -28,6 +28,7 @@ class _CutConfig:
             {
                 "l": "= Episode Start Options =",
                 "q": "Production Logos",
+                "k": "production",
                 "a": ["Keep", "On Run Start", "Cut"]
             },
             {
@@ -38,41 +39,49 @@ class _CutConfig:
             {
                 "l": "= Mid-episode Options =",
                 "q": "Title Cards",
+                "k": "titlecard",
                 "a": ["Keep", "Cut"]
             },
             {
                 "l": "",
                 "q": "Bumpers/Eyecatchers",
+                "k": "eyecatcher",
                 "a": ["Keep All", "Keep First", "Cut"]
             },
             {
                 "l": "= Episode End Options =",
                 "q": "To Be Continued",
+                "k": "tbc",
                 "a": ["Keep", "On Run End", "Cut"]
             },
             {
                 "l": "",
                 "q": "Closing Themes",
+                "k": "themeclose",
                 "a": ["Keep", "On Run End", "Cut"]
             },
             {
                 "l": "",
                 "q": "Teasers",
+                "k": "teaser",
                 "a": ["Keep", "On Run End", "Cut"]
             },
             {
                 "l": "",
                 "q": "Signoff Panes",
+                "k": "signoff",
                 "a": ["Keep", "On Run End", "Cut"]
             },
             {
                 "l": "= Other Options =",
                 "q": "Episodes Per Run",
+                "k": "",
                 "a": [1, 2, 3, 4, 5]
             },
             {
                 "l": "1: Scenes, 2: Episodes (Except G-8), 3: All Non-Canon Content",
                 "q": "Filler Pool",
+                "k": "",
                 "a": [1]
             }
         ]
@@ -169,6 +178,55 @@ class _CutConfig:
     def get_selected_fillers(self):
         # TODO this should return the filler that the user wants to cut
         return c.FILLER_TYPES
+
+    def get_option_cats(self):
+        """Used for getting the currently stored settings
+        Returns: a dict with properties
+        run_len: the number of episodes in a run
+        filler: the filler pool that will be cut - "filler_1"
+        keep: this segment should render under all curcumstances
+        keep_first: this segment should render ONLY if this is the first episode in a run
+        keep_last: this segment should render ONLY if this is the last episode in a run
+        keep_one: if there are multiples of this segment in an episode, render only one (for now, this is the first one)
+        drop: do not render this segment under any circumstances"""
+        cats = {
+            "run_len": 0,
+            "filler": 0,
+            "keep": ["generic"],
+            "keep_first": ["recap"],
+            "keep_last": ["easeout"],
+            "keep_one": [],
+            "drop": [],
+        }
+        for i in range(self.get_menu_length()):
+            option = self.get_menu_option_by_index(i)
+            question = option["q"]
+            answers = option["a"]
+            key = option["k"]
+            state = self.get_state_by_index(i)
+
+            if question == "Episodes Per Run":
+                cats["run_len"] = answers[state]
+                break
+            if question == "Filler Pool":
+                cats["filler"] = answers[state]
+                break
+
+            match answers[state]:
+                case "Keep":
+                    cats["keep"].append(key)
+                case "On Run Start":
+                    cats["keep_first"].append(key)
+                case "On Run End":
+                    cats["keep_last"].append(key)
+                case "Keep First":
+                    cats["keep_one"].append(key)
+                case "Cut":
+                    cats["drop"].append(key)
+                case _:
+                    Utils.log(f"ERROR: Option [{question}] has an unknown selection [{answers[state]}]")
+        return cats
+
 
     # Setters ==========
 

@@ -165,7 +165,7 @@ def slice_generic_by_fillers(generic, fillers): #TODO This could be streamlined.
         else:
             if not overlaps:
                 # success
-                Utils.log(f"[{len(fillers)}] overlaps removed from segment [{generic["filename"]}] resulting in [{len(cleared_segments)}] new segments")
+                Utils.log(f"VERBOSE: [{len(fillers)}] overlaps removed from segment [{generic["filename"]}] resulting in [{len(cleared_segments)}] new segments")
             if not candidates:
                 # ???
                 Utils.log(f"WARN: Segment [{generic["filename"]}] resulted in [{len(candidates)}] candidate segments in get_segment_overlaps()", {"generic": generic, "fillers": fillers})
@@ -242,6 +242,7 @@ def process_file(video_file, proj_file, temp_dir):
     print(f"\n=== Processing: {video_file.name} ===")
     proj_cuts = load_segments_from_map(proj_file)
     user_cuts = parse_segment_cuts(proj_cuts)
+    cut_options = cut_config.get_option_cats()
     return
 
     streams = ffprobe_streams(video_file)
