@@ -68,12 +68,12 @@ class _CutConfig:
             {
                 "l": "= Other Options =",
                 "q": "Episodes Per Run",
-                "a": ["1", "2", "3", "4", "5"]
+                "a": [1, 2, 3, 4, 5]
             },
             {
                 "l": "1: Scenes, 2: Episodes (Except G-8), 3: All Non-Canon Content",
                 "q": "Filler Pool",
-                "a": ["1"]
+                "a": [1]
             }
         ]
         self.state = [1,1,0,1,1,1,2,1,4,0]
@@ -97,13 +97,17 @@ class _CutConfig:
         if found_error:
             raise IndexError
         # Check that every option has a label
-        if"l" not in self.presets:
+        if "l" not in self.presets:
             Utils.log("ERROR: CutConfig - Config is lacking a label")
             found_error = True
         for i, o in enumerate(self.menu):
             if not "l" in o:
                 Utils.log(f"ERROR: CutConfig - Menu option [{i}] is lacking a label")
                 found_error = True
+            if o["q"] in ["Episodes Per Run", "Filler Pool"]:
+                if not all([isinstance(x, (int)) for x in o["a"]]):
+                    Utils.log(f"ERROR: CutConfig - Integer menu option [{i}] is not entirely integers")
+                    found_error = True
         if found_error:
             raise ValueError
 
