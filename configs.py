@@ -200,7 +200,7 @@ class _CutConfig:
             "run_len": 0,
             "filler": 0,
             "keep": ["generic"],
-            "keep_first": ["recap"],
+            "keep_first": [],
             "keep_last": ["easeout"],
             "keep_one": [],
             "drop": [],

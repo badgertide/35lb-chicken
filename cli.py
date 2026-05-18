@@ -150,7 +150,7 @@ def set_cutmap_options():
             print_menu_options(stdscr, margin_t, margin_l, current_index)
             current_index = handle_keypress(stdscr, current_index)
             if current_index is None:
-                Utils.log("INFO: index of None detected. Exiting.")
+                Utils.log("VERBOSE: User confirmed choices. Exiting CLI.")
                 break
             stdscr.refresh()
 
