@@ -9,6 +9,8 @@ import cli as CLI
 import constants as c
 import video
 
+#TODO Add types to functions where necessary
+
 def get_target_dir():
     """Setting the cwd. Can be set automatically or by the user."""
     target_dir = ""

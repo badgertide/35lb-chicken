@@ -8,6 +8,7 @@
     q: Query
         a: Answers"""
 
+from pathlib import Path
 import utils as Utils
 import constants as c
 
@@ -307,5 +308,49 @@ class _CutConfig:
             return
         else:
             self.set_state_to_preset(current_index-1)
+
+class _FileConfig:
+    def __init__(
+        self,
+        sourcevideo_path: Path,
+        projllc_path: Path,
+        tempdir_path: Path,
+        run_index: int
+    ):
+        self._sourcevideo_path  = Path(sourcevideo_path)
+        self._projllc_path = Path(projllc_path)
+        self._tempdir_path   = Path(tempdir_path)
+        self._run_index       = run_index
+    
+    def _validate(self):
+        return #TODO write this
+    
+    # Getters ==========
+
+    def get_sourcevideo_path(self) -> Path:
+        return self._sourcevideo_path
+
+    def get_projllc_path(self) -> Path:
+        return self._projllc_path
+
+    def get_tempdir_path(self) -> Path:
+        return self._tempdir_path
+
+    def get_run_index(self) -> int:
+        return self._run_index
+
+    # Setters ==========
+
+    def set_sourcevideo_path(self, value: Path):
+        self._sourcevideo_path = Path(value)
+
+    def set_projllc_path(self, value: Path):
+        self._projllc_path = Path(value)
+
+    def set_tempdir_path(self, value: Path):
+        self._tempdir_path = Path(value)
+
+    def set_run_index(self, value: int):
+        self._run_index = int(value)
 
 cut_config = _CutConfig()
