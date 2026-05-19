@@ -198,7 +198,7 @@ class _CutConfig:
         drop: do not render this segment under any circumstances"""
         cats = { #TODO make this its own class
             "run_len": 0,
-            "filler": 0,
+            "filler": [],
             "keep": ["generic"],
             "keep_first": [],
             "keep_last": ["easeout"],
@@ -214,10 +214,8 @@ class _CutConfig:
 
             if question == "Episodes Per Run":
                 cats["run_len"] = answers[state]
-                break
             if question == "Filler Pool":
-                cats["filler"] = answers[state]
-                break
+                cats["filler"].append(f"filler{answers[state]}")
 
             match answers[state]:
                 case "Keep":
