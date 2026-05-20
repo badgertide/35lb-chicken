@@ -14,3 +14,28 @@ Yeah, you can do that. One Pace is great and I deeply respect all of the quality
 
 ## Is this piracy?
 No, everything in this project is my own making, minus the titles on the templates. You supply the video and I will cut the videos down to size.
+
+---
+---
+
+# Setup
+
+**Step 1**: In order for all of this to work, `ffmpeg` and `ffprobe` need to be found on the system PATH. If you can run both programs from the command line, then you are good to go.
+
+<details><summary>Windows</summary>
+
+* Check if ffmpeg and ffprobe are installed
+  > _ ffmpeg ffprobe
+* If either program is not installed, you will need to install them
+* TODO - Instructions on how to install FFMPEG and FFProbe for Windows
+</details>
+
+<details><summary>Linux/MacOS</summary>
+
+* Check if ffmpeg and ffprobe are installed
+  > where ffmpeg ffprobe
+* If neither shows up, use your preferred package manager to install `ffmpeg`, which will also install ffprobe
+  > brew install ffmpeg
+</details>
+
+**Step 2**: 35PC should work on any copy of One Piece, but it is specifically geared to work on one specific cut
